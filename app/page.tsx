@@ -3,6 +3,12 @@ import HeroCarousel from '@/components/HeroCarousel';
 import NewsSection from '@/components/NewsSection';
 import logo from '@/public/logo.png';
 import HomeAbout from '@/components/HomeAbout';
+import Speach from '@/components/Speach';
+import Services from '@/components/Services';
+import LifeInsideAcademy from '@/components/LifeInsideAcademy';
+import Praise from '@/components/Praise';
+import Footer from '@/components/Footer';
+import ScrollToTop from '@/components/ScrollToTop';
 export default function Home() {
   const items = [
     {
@@ -51,8 +57,20 @@ export default function Home() {
         />
       </div>
       <HeroCarousel />
+      <hr />
       <NewsSection />
+      <hr />
       <HomeAbout />
+      <hr />
+      <Speach />
+      <hr />
+      <Services />
+      <hr />
+      <LifeInsideAcademy />
+      <hr />
+      <Praise />
+      <Footer />
+      <ScrollToTop />
     </div>
   );
 }

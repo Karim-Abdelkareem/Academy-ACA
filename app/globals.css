@@ -1,6 +1,8 @@
 @import "tailwindcss";
+@import "@heroui/styles"; 
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+
 
 @custom-variant dark (&:is(.dark *));
 
@@ -154,6 +156,26 @@
   padding: 0 16px !important;
   border-radius: 10 !important;
   transition: all 0.3s ease-in-out !important;
+}
+
+/* Tab Panel Transitions */
+.tab-panel-transition {
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.tab-panel-transition[data-slot="tab-panel"] {
+  animation: fadeInSlide 0.4s ease-in-out;
+}
+
+@keyframes fadeInSlide {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 @layer base {

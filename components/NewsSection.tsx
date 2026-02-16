@@ -141,9 +141,9 @@ export default function NewsSection() {
     const [first, second, third, fourth] = NEWS_DATA;
 
     return (
-        <div className="w-[90%] max-w-full mx-auto my-24 overflow-x-hidden" dir="rtl">
+        <div className="w-[90%] max-w-full mx-auto my-12 overflow-x-hidden" dir="rtl">
             <BlurFade>
-                <h2 className="text-4xl font-bold text-center mb-12">الاخبار</h2>
+                <h2 className="text-4xl font-bold text-center mb-12 text-red-600">الاخبار</h2>
             </BlurFade>
             <BlurFade duration={0.6} delay={0.2} offset={10} direction='left'>
 
