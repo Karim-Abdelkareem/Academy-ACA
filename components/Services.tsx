@@ -9,7 +9,7 @@ import { BorderBeam } from "./ui/border-beam";
 import { InteractiveHoverButton } from "./ui/interactive-hover-button";
 import { StripedPattern } from "./ui/striped-pattern";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 
 export type ServiceItem = {
   id: number;
@@ -77,7 +77,7 @@ const SERVICES_DATA: ServiceItem[] = [
   },
 ];
 
-const servicesGridVariants = {
+const servicesGridVariants: Variants = {
   hidden: {},
   visible: {
     transition: {
@@ -87,7 +87,7 @@ const servicesGridVariants = {
   },
 };
 
-const servicesItemVariants = {
+const servicesItemVariants: Variants = {
   hidden: { opacity: 0, y: 30, scale: 0.96 },
   visible: {
     opacity: 1,

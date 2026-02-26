@@ -5,7 +5,7 @@ import { BlurFade } from "./ui/blur-fade";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -27,7 +27,7 @@ import i12 from "@/public/LIA/LIA_12.jpeg";
 
 const photos = [i1, i2, i3, i4, i5, i6, i7, i8, i9, i10, i11, i12];
 
-const lifeItemVariants = {
+const lifeItemVariants: Variants = {
   hidden: { opacity: 0, y: 30, scale: 0.95 },
   visible: (index: number) => ({
     opacity: 1,
