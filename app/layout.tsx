@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
+import CardNav from '@/components/CardNav';
+import logo from '@/public/logo.png';
+import { CardNavItem } from "@/components/CardNav";
+import Footer from '@/components/Footer';
+import ScrollToTop from '@/components/ScrollToTop';
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -22,12 +26,66 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const items: CardNavItem[] = [
+    {
+      label: "عن الأكاديمية",
+      bgColor: "#0D0716",
+      textColor: "#fff",
+      links: [
+        { label: "الأكاديمية", href: "/about-academy", ariaLabel: "About Company" },
+        { label: "الأكاديمية", href: "/about-academy", ariaLabel: "About Careers" }
+      ]
+    },
+    {
+      label: "المشاريع",
+      bgColor: "#170D27",
+      textColor: "#fff",
+      links: [
+        { label: "المشاريع", href: "/projects", ariaLabel: "Featured Projects" },
+        { label: "الدراسات", href: "/projects", ariaLabel: "Project Case Studies" }
+      ]
+    },
+    {
+      label: "الاتصال",
+      bgColor: "#271E37",
+      textColor: "#fff",
+      links: [
+        { label: "البريد الإلكتروني", href: "/contact", ariaLabel: "Email us" },
+        { label: "التويتر", href: "/contact", ariaLabel: "Twitter" },
+        { label: "اللينكدين", href: "/contact", ariaLabel: "LinkedIn" }
+      ]
+    },
+    {
+      label: "الخدمات",
+      bgColor: "#170D27",
+      textColor: "#fff",
+      links: [
+        { label: "الخدمات", href: "/services", ariaLabel: "Services" }
+      ]
+    }
+  ];
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <div className="relative w-full">
+          <CardNav
+            logo={logo.src}
+            logoAlt="Academy ACA Logo"
+            items={items}
+            baseColor="#fff"
+            glassEffect
+            menuColor="#0D0716"
+            buttonBgColor="#fff"
+            buttonTextColor="#0D0716"
+            ease="power3.out"
+            className='w-full fixed top-0'
+          />
+        </div>
         {children}
+        <Footer />
+        <ScrollToTop />
       </body>
     </html>
   );

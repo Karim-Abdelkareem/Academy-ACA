@@ -68,6 +68,24 @@
     transform: translateZ(0) rotate(360deg);
     }
   }
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-100%);
+    }
+  }
+  @keyframes marquee-vertical {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(-100%);
+    }
+  }
+  --animate-marquee: marquee var(--duration, 40s) linear infinite;
+  --animate-marquee-vertical: marquee-vertical var(--duration, 40s) linear infinite;
 }
 
 @media (prefers-color-scheme: light) {
@@ -177,6 +195,50 @@
     transform: translateX(0);
   }
 }
+
+.animate-marquee {
+  animation: var(--animate-marquee);
+}
+.animate-marquee-vertical {
+  animation: var(--animate-marquee-vertical);
+}
+
+/* =============================================
+   Modern Custom Scrollbar
+   ============================================= */
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #e7000b #ffffff;
+}
+
+/* Chrome, Edge, Safari */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #ffffff;
+  border-radius: 100px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #e7000b 0%, #c00009 50%, #a30008 100%);
+  border-radius: 100px;
+  border: 2px solid #ffffff;
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #ff1a24 0%, #e7000b 50%, #c00009 100%);
+}
+
+::-webkit-scrollbar-corner {
+  background: #ffffff;
+}
+
 
 @layer base {
   * {

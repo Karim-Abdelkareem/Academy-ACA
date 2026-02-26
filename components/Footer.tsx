@@ -8,7 +8,7 @@ import { Mail, Phone, MapPin } from 'lucide-react';
 
 export default function Footer() {
     return (
-        <footer className="w-full bg-neutral-900 text-white mt-24" dir="rtl">
+        <footer className="w-full bg-neutral-900 text-white" dir="rtl">
             <div className="w-[90%] max-w-7xl mx-auto py-12">
                 <BlurFade>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">

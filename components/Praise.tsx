@@ -1,184 +1,152 @@
 "use client"
 import React from 'react'
-import { BlurFade } from './ui/blur-fade'
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { Autoplay, Navigation, Pagination } from 'swiper/modules'
 import Image from 'next/image'
+import { motion } from 'framer-motion'
+import { MdOutlineFormatQuote } from 'react-icons/md'
 import p1 from '@/public/T/T_1.jpeg'
 import p2 from '@/public/T/T_2.jpeg'
 import p3 from '@/public/T/T_3.jpeg'
 import p4 from '@/public/T/T_4.jpeg'
 import p5 from '@/public/T/T_5.jpeg'
-import { BorderBeam } from './ui/border-beam'
-import { MdOutlineFormatQuote } from 'react-icons/md'
+
+const PRAISE_ITEMS = [
+    {
+        id: 1,
+        image: p1,
+        name: 'د.رانيا يحيى',
+        role: 'عضو سابق بالمجلس القومي للمرأة',
+        text: 'دورة مكافحة الفساد والنزاهة والشفافية التي تقدمها الأكاديمية الوطنية لمكافحة الفساد واحدة من أجمل وأمتع الدورات التي يمكن أن يتلقاها المتدربين داخل هذه الأكاديمية المحترمة.',
+    },
+    {
+        id: 2,
+        image: p5,
+        name: 'د.غادة علي',
+        role: 'عضو سابق بمجلس النواب',
+        text: 'الأكاديمية الوطنية لمكافحة الفساد هذا القطاع العظيم من الصرح العظيم أصبح له دور فعال ومؤثر في تأهيل كافة القيادات الشابة.',
+    },
+    {
+        id: 3,
+        image: p4,
+        name: 'د.طارق الرفاعي',
+        role: 'مدير منظومة الشكاوي الحكومية الموحدة',
+        text: 'تكامل جهود سلطات الدولة يكون مؤثر وله نتائج إيجابية في الحد من كافة مظاهر الفساد، كل هذا موجود في البرنامج المتميز للدراسات العليا الخاص بالحوكمة ومكافحة الفساد.',
+    },
+    {
+        id: 4,
+        image: p3,
+        name: 'أ. عادل العسومي',
+        role: 'الرئيس السابق للبرلمان العربي',
+        text: 'أنا سعيد بوجودي الآن في الأكاديمية الوطنية وسعيد جداً أن أشهد هذا المستوى من التطور والحداثة. أنتم الآن تمثلون المرحلة الجديدة لمصر.',
+    },
+    {
+        id: 5,
+        image: p2,
+        name: 'أ. كريستين ألبرتين',
+        role: 'الممثلة الإقليمية لمكتب الأمم المتحدة المعني بالمخدرات والجريمة',
+        text: 'يسعى مكتب الأمم المتحدة لدعم المشاركة البناءة مع هيئة الرقابة الإدارية والأكاديمية الوطنية لمكافحة الفساد، تلك المشاركة الممتدة عبر السنوات الماضية.',
+    },
+]
+
+// Two copies — with LTR layout and -50% shift this is perfectly seamless
+const DOUBLED = [...PRAISE_ITEMS, ...PRAISE_ITEMS]
+
+function PraiseCard({ item }: { item: typeof PRAISE_ITEMS[0] }) {
+    return (
+        <div
+            dir="rtl"
+            className="relative flex flex-col gap-4 w-[340px] shrink-0 rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm hover:shadow-md hover:border-red-200 transition-all duration-300 cursor-default"
+        >
+            {/* quote icon watermark */}
+            <MdOutlineFormatQuote
+                size={72}
+                className="absolute top-2 left-3 text-neutral-200 pointer-events-none select-none"
+            />
+
+            {/* top accent */}
+            {/* <div className="absolute top-0 right-0 h-[3px] rounded-t-2xl bg-gradient-to-l from-red-500/60 to-transparent" /> */}
+
+            {/* person */}
+            <div className="flex gap-3 relative z-10">
+                <div className="relative w-14 h-14 shrink-0 rounded-full overflow-hidden ring-2 ring-red-100">
+                    <Image src={item.image} alt={item.name} fill className="object-cover" sizes="56px" />
+                </div>
+                <div>
+                    <p className="font-bold text-neutral-900 text-base leading-tight">{item.name}</p>
+                    <p className="text-neutral-400 text-xs leading-snug mt-0.5 max-w-[200px]">{item.role}</p>
+                </div>
+            </div>
+
+            {/* divider */}
+            <div className="h-px bg-neutral-100" />
+
+            {/* quote */}
+            <p className="text-neutral-600 text-sm leading-relaxed relative z-10 line-clamp-4">
+                {item.text}
+            </p>
+
+            {/* stars */}
+            <div className="flex gap-0.5 mt-auto">
+                {Array.from({ length: 5 }).map((_, i) => (
+                    <svg key={i} className="w-3.5 h-3.5 text-amber-400 fill-current" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                ))}
+            </div>
+        </div>
+    )
+}
 
 export default function Praise() {
     return (
-        <div className='w-full my-12 mx-auto max-w-6xl' dir="rtl">
-            <BlurFade>
-                <h2 className='text-4xl font-bold text-center mb-12 text-red-700'>إشادات</h2>
-            </BlurFade>
-            <BlurFade duration={0.6} delay={0.2} offset={10} direction='left'>
-                <div className="relative">
-                    <Swiper
-                        modules={[Autoplay, Pagination, Navigation]}
-                        spaceBetween={20}
-                        slidesPerView={1.5}
-                        autoplay={{
-                            delay: 2000,
-                            disableOnInteraction: false,
-                        }}
-                        loop
-                        navigation={{
-                            nextEl: '.praise-swiper-next',
-                            prevEl: '.praise-swiper-prev',
-                        }}
-                        className="[&_.swiper-wrapper]:items-stretch"
-                    >
-                        <SwiperSlide className="h-auto flex items-stretch">
-                            <div className="relative w-full h-full min-h-[280px] rounded-xl border p-4 overflow-hidden group cursor-pointer flex flex-col flex-1">
-                                <div className='absolute top-1 left-4'>
-                                    <MdOutlineFormatQuote size={80} className='text-2xl text-gray-500 opacity-10' />
-                                </div>
-                                <div className='flex items-center gap-4'>
-                                    <div className='space-y-2'>
-                                        <Image src={p1} alt="p1" className="object-cover w-30 h-30 rounded-full" />
-                                    </div>
-                                    <div className='flex-1/2 space-y-4'>
-                                        <div className='space-y-2'>
-                                            <h3 className="text-xl font-bold">د.رانيا يحيى</h3>
-                                            <h4 className="text-sm text-gray-500">
-                                                عضو سابق بالمجلس القومي للمرأة
-                                            </h4>
-                                        </div>
-                                        <p>دورة مكافحة الفساد والنزاهة والشفافية التي تقدمها الأكاديمية الوطنية لمكافحة الفساد واحدة من أجمل وأمتع الدورات التي يمكن أن يتلقاها المتدربين داخل هذه الأكاديمية المحترمة لما تقدمه من كشف أنواع الفساد المختلفة وكيفية محاربة الفساد بشتى صوره وأنواعه.
-                                        </p>
-                                    </div>
-                                </div>
-                                <BorderBeam size={100} colorFrom="transparent" colorTo="red" duration={5} borderWidth={1} />
-                            </div>
-                        </SwiperSlide>
-                        <SwiperSlide className="h-auto flex items-stretch">
-                            <div className="relative w-full h-full min-h-[280px] rounded-xl border p-4 overflow-hidden group cursor-pointer flex flex-col flex-1">
-                                <div className='absolute top-1 left-4'>
-                                    <MdOutlineFormatQuote size={80} className='text-2xl text-gray-500 opacity-10' />
-                                </div>
-                                <div className='flex items-center gap-4'>
-                                    <div className='space-y-2'>
-                                        <Image src={p5} alt="p5" className="object-cover w-30 h-30 rounded-full" />
-                                    </div>
-                                    <div className='flex-1/2 space-y-4'>
-                                        <div className='space-y-2'>
-                                            <h3 className="text-xl font-bold">د.غادة علي</h3>
-                                            <h4 className="text-sm text-gray-500">
-                                                عضو سابق بمجلس النواب
-                                            </h4>
-                                        </div>
-                                        <p>
-                                            الأكاديمية الوطنية لمكافحة الفساد هذا القطاع العظيم من الصرح العظيم وهو هيئة الرقابة الإدارية أصبح له دور فعال ومؤثر في تأهيل كافة القيادات الشابة
-                                        </p>
-                                    </div>
-                                </div>
-                                <BorderBeam size={100} colorFrom="transparent" colorTo="red" duration={5} borderWidth={1} />
-                            </div>
-                        </SwiperSlide>
-                        <SwiperSlide className="h-auto flex items-stretch">
-                            <div className="relative w-full h-full min-h-[280px] rounded-xl border p-4 overflow-hidden group cursor-pointer flex flex-col flex-1">
-                                <div className='absolute top-1 left-4'>
-                                    <MdOutlineFormatQuote size={80} className='text-2xl text-gray-500 opacity-10' />
-                                </div>
-                                <div className='flex items-center gap-4'>
-                                    <div className='space-y-2'>
-                                        <Image src={p4} alt="p4" className="object-cover w-30 h-30 rounded-full" />
-                                    </div>
-                                    <div className='flex-1/2 space-y-4'>
-                                        <div className='space-y-2'>
-                                            <h3 className="text-xl font-bold">د.طارق الرفاعي</h3>
-                                            <h4 className="text-sm text-gray-500">
-                                                مدير منظومة الشكاوي الحكومية الموحدة
-                                            </h4>
-                                        </div>
-                                        <p>
-                                            تكامل جهود سلطات الدولة يكون مؤثر و له نتائج إيجابية في الحد من كافة مظاهر الفساد ده كله بنلاقيه موجود في البرنامج المتميز للدراسات العليا الخاص بالحوكمة ومكافحة الفساد اللي بتنظمه الأكاديمية الوطنية لمكافحة الفساد بهيئة الرقابة الإدارية.
-                                        </p>
-                                    </div>
-                                </div>
-                                <BorderBeam size={100} colorFrom="transparent" colorTo="red" duration={5} borderWidth={1} />
-                            </div>
-                        </SwiperSlide>
-                        <SwiperSlide className="h-auto flex items-stretch">
-                            <div className="relative w-full h-full min-h-[280px] rounded-xl border p-4 overflow-hidden group cursor-pointer flex flex-col flex-1">
-                                <div className='absolute top-1 left-4'>
-                                    <MdOutlineFormatQuote size={80} className='text-2xl text-gray-500 opacity-10' />
-                                </div>
-                                <div className='flex items-center gap-4'>
-                                    <div className='space-y-2'>
-                                        <Image src={p3} alt="p3" className="object-cover w-30 h-30 rounded-full" />
-                                    </div>
-                                    <div className='flex-1/2 space-y-4'>
-                                        <div className='space-y-2'>
-                                            <h3 className="text-xl font-bold">
-                                                أ. عادل العسومي
-                                            </h3>
-                                            <h4 className="text-sm text-gray-500">
-                                                الرئيس السابق للبرلمان العربي
-                                            </h4>
-                                        </div>
-                                        <p>
-                                            &quot;أنا سعيد بوجودي الأن في الأكاديمية الوطنية وسعيد جدا أن أشهد هذا المستوى من التطور والحداثة, كلمتي لكم هي &quot; أنتم الأن تمثلوا المرحلة الجديدة لمصر&quot;
-                                        </p>
-                                    </div>
-                                </div>
-                                <BorderBeam size={100} colorFrom="transparent" colorTo="red" duration={5} borderWidth={1} />
-                            </div>
-                        </SwiperSlide>
-                        <SwiperSlide className="h-auto flex items-stretch">
-                            <div className="relative w-full h-full min-h-[280px] rounded-xl border p-4 overflow-hidden group cursor-pointer flex flex-col flex-1">
-                                <div className='absolute top-1 left-4'>
-                                    <MdOutlineFormatQuote size={80} className='text-2xl text-gray-500 opacity-10' />
-                                </div>
-                                <div className='flex items-center gap-4'>
-                                    <div className='space-y-2'>
-                                        <Image src={p2} alt="p2" className="object-cover w-30 h-30 rounded-full" />
-                                    </div>
-                                    <div className='flex-1/2 space-y-4'>
-                                        <div className='space-y-2'>
-                                            <h3 className="text-xl font-bold">
-                                                أ. كريستين ألبرتين
-                                            </h3>
-                                            <h4 className="text-sm text-gray-500 max-w-sm">
-                                                الممثلة الإقليمية لمكتب الأمم المتحدة المعني بالمخدرات والجريمة للشرق الأوسط و شمال أفريقيا
-                                            </h4>
-                                        </div>
-                                        <p>
-                                            يسعى مكتب الأمم المتحدة المعني بمكافحة المخدرات والجريمة لدعم المشاركة البناءة مع هيئة الرقابة الإدارية والأكاديمية الوطنية لمكافحة الفساد تلك المشاركة الممتدة عبر السنوات الماضية والتي ساعدت على تحقيق العديد من الإنجازات المتميزة التي تشمل تدريب الممارسين من القطاعين العام والخاص على منع ومكافحة الفساد.
-                                        </p>
-                                    </div>
-                                </div>
-                                <BorderBeam size={100} colorFrom="transparent" colorTo="red" duration={5} borderWidth={1} />
-                            </div>
-                        </SwiperSlide>
-                    </Swiper>
-                    <button
-                        type="button"
-                        className="praise-swiper-next absolute top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/90 text-neutral-800 shadow-lg flex items-center justify-center hover:bg-white transition-colors -left-4 md:-left-6"
-                        aria-label="Next slide"
-                    >
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                        </svg>
-                    </button>
-                    <button
-                        type="button"
-                        className="praise-swiper-prev absolute top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/90 text-neutral-800 shadow-lg flex items-center justify-center hover:bg-white transition-colors -right-4 md:-right-6"
-                        aria-label="Previous slide"
-                    >
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                        </svg>
-                    </button>
+        <section className="relative w-full py-20 overflow-hidden bg-white" dir="rtl"
+            style={{ fontFamily: "'Cairo', 'Noto Kufi Arabic', sans-serif" }}
+        >
+            {/* background blobs */}
+            <div className="pointer-events-none absolute inset-0">
+                <div className="absolute top-0 right-0 w-[400px] h-[300px] bg-red-50/60 blur-[100px] rounded-full" />
+                <div className="absolute bottom-0 left-0 w-[350px] h-[250px] bg-amber-50/50 blur-[90px] rounded-full" />
+            </div>
+
+            {/* edge fade masks */}
+            <div className="pointer-events-none absolute inset-y-0 right-0 w-32 z-10 bg-gradient-to-l from-white to-transparent" />
+            <div className="pointer-events-none absolute inset-y-0 left-0 w-32 z-10 bg-gradient-to-r from-white to-transparent" />
+
+            <div className="relative z-0 max-w-6xl mx-auto px-4 mb-14">
+                <motion.div
+                    className="text-center flex flex-col items-center gap-2"
+                    initial={{ opacity: 0, y: -16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6 }}
+                >
+                    <span className="text-red-500 text-xs font-mono tracking-[0.3em] uppercase">ماذا قالوا عنا</span>
+                    <h2 className="text-neutral-900 text-4xl md:text-5xl font-black leading-none">
+                        إشادات<span className="text-red-600">.</span>
+                    </h2>
+                </motion.div>
+            </div>
+
+            {/* Single continuous marquee row — forced LTR so translateX is predictable */}
+            <div className="relative overflow-hidden" dir="ltr">
+                <div
+                    className="flex gap-4 w-max"
+                    style={{ animation: 'marquee-infinite 40s linear infinite' }}
+                >
+                    {DOUBLED.map((item, i) => (
+                        <PraiseCard key={`row-${i}`} item={item} />
+                    ))}
                 </div>
-            </BlurFade>
-        </div>
+            </div>
+
+            <style>{`
+                @keyframes marquee-infinite {
+                    0%   { transform: translateX(0); }
+                    100% { transform: translateX(-50%); }
+                }
+                div[style*="marquee-infinite"]:hover {
+                    animation-play-state: paused;
+                }
+            `}</style>
+        </section>
     )
 }

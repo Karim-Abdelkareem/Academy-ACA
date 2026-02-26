@@ -1,76 +1,156 @@
-import CardNav from '@/components/CardNav';
+"use client"
+
 import HeroCarousel from '@/components/HeroCarousel';
 import NewsSection from '@/components/NewsSection';
-import logo from '@/public/logo.png';
 import HomeAbout from '@/components/HomeAbout';
 import Speach from '@/components/Speach';
 import Services from '@/components/Services';
 import LifeInsideAcademy from '@/components/LifeInsideAcademy';
 import Praise from '@/components/Praise';
-import Footer from '@/components/Footer';
-import ScrollToTop from '@/components/ScrollToTop';
+
+import { motion } from 'framer-motion';
+
+const heroVariants = {
+  hidden: { opacity: 0, y: 60, scale: 0.96 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.7, ease: 'easeOut' },
+  },
+};
+
+const newsVariants = {
+  hidden: { opacity: 0, x: 80 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.7, ease: 'easeOut' },
+  },
+};
+
+const aboutVariants = {
+  hidden: { opacity: 0, x: -80 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.7, ease: 'easeOut' },
+  },
+};
+
+const speechVariants = {
+  hidden: { opacity: 0, y: 80 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.7, ease: 'easeOut' },
+  },
+};
+
+const servicesVariants = {
+  hidden: { opacity: 0, scale: 0.92 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.7, ease: 'easeOut' },
+  },
+};
+
+const lifeVariants = {
+  hidden: { opacity: 0, y: 60, rotate: -1 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    rotate: 0,
+    transition: { duration: 0.7, ease: 'easeOut' },
+  },
+};
+
+const praiseVariants = {
+  hidden: { opacity: 0, y: 40 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.7, ease: 'easeOut' },
+  },
+};
+
 export default function Home() {
-  const items = [
-    {
-      label: "About",
-      bgColor: "#0D0716",
-      textColor: "#fff",
-      links: [
-        { label: "Company", ariaLabel: "About Company" },
-        { label: "Careers", ariaLabel: "About Careers" }
-      ]
-    },
-    {
-      label: "Projects",
-      bgColor: "#170D27",
-      textColor: "#fff",
-      links: [
-        { label: "Featured", ariaLabel: "Featured Projects" },
-        { label: "Case Studies", ariaLabel: "Project Case Studies" }
-      ]
-    },
-    {
-      label: "Contact",
-      bgColor: "#271E37",
-      textColor: "#fff",
-      links: [
-        { label: "Email", ariaLabel: "Email us" },
-        { label: "Twitter", ariaLabel: "Twitter" },
-        { label: "LinkedIn", ariaLabel: "LinkedIn" }
-      ]
-    }
-  ];
+
   return (
     <div className='overflow-hidden'>
-      <div className="relative w-full">
-        <CardNav
-          logo={logo.src}
-          logoAlt="Academy ACA Logo"
-          items={items as []}
-          baseColor="#fff"
-          glassEffect
-          menuColor="#000"
-          buttonBgColor="#111"
-          buttonTextColor="#fff"
-          ease="power3.out"
-          className='w-full fixed top-0'
-        />
-      </div>
-      <HeroCarousel />
+
+
+      <motion.section
+        variants={heroVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false, amount: 0.2 }}
+      >
+        <HeroCarousel />
+      </motion.section>
       <hr />
-      <NewsSection />
+
+      <motion.section
+        variants={newsVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false, amount: 0.2 }}
+      >
+        <NewsSection />
+      </motion.section>
       <hr />
-      <HomeAbout />
+
+      <motion.section
+        variants={aboutVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false, amount: 0.2 }}
+      >
+        <HomeAbout />
+      </motion.section>
       <hr />
-      <Speach />
+
+      <motion.section
+        variants={speechVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false, amount: 0.2 }}
+      >
+        <Speach />
+      </motion.section>
       <hr />
-      <Services />
+
+      <motion.section
+        variants={servicesVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false, amount: 0.2 }}
+      >
+        <Services />
+      </motion.section>
       <hr />
-      <LifeInsideAcademy />
+
+      <motion.section
+        variants={lifeVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false, amount: 0.2 }}
+      >
+        <LifeInsideAcademy />
+      </motion.section>
       <hr />
-      <Praise />
-      <Footer />
-      <ScrollToTop />
+
+      <motion.section
+        variants={praiseVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false, amount: 0.2 }}
+      >
+        <Praise />
+      </motion.section>
+
+
     </div>
   );
 }
