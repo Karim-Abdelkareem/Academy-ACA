@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import React, { useMemo, useState } from 'react';
-import Link from 'next/link';
-import { motion, AnimatePresence } from 'framer-motion';
-import menuJson from '@/data/menu.json';
+import React, { useMemo, useState } from "react";
+import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
+import menuJson from "@/data/menu.json";
 
 type MenuItem = {
   id: number;
@@ -26,10 +26,10 @@ type MenuSection = {
 type MenuData = Record<string, MenuSection>;
 
 const ABOUT_SECTION_KEYS = [
-  'foundation',
-  'administrativeStructure',
-  'socialAwareness',
-  'lifeinAcademy',
+  "foundation",
+  "administrativeStructure",
+  "socialAwareness",
+  "lifeinAcademy",
 ] as const;
 
 /**
@@ -37,14 +37,16 @@ const ABOUT_SECTION_KEYS = [
  * The CMS injects hardcoded widths (e.g. width:2095px) that break layouts.
  */
 function sanitizeRichContent(html: string): string {
-  return html
-    // Remove width / max-width / flex-basis / min-width from inline styles
-    .replace(/\bwidth\s*:\s*[^;"]+(;|(?="))/gi, '')
-    .replace(/\bmax-width\s*:\s*[^;"]+(;|(?="))/gi, '')
-    .replace(/\bmin-width\s*:\s*[^;"]+(;|(?="))/gi, '')
-    .replace(/\bflex-basis\s*:\s*[^;"]+(;|(?="))/gi, '')
-    // Remove overflow:hidden that may clip content
-    .replace(/\boverflow\s*:\s*hidden\s*(;|(?="))/gi, '');
+  return (
+    html
+      // Remove width / max-width / flex-basis / min-width from inline styles
+      .replace(/\bwidth\s*:\s*[^;"]+(;|(?="))/gi, "")
+      .replace(/\bmax-width\s*:\s*[^;"]+(;|(?="))/gi, "")
+      .replace(/\bmin-width\s*:\s*[^;"]+(;|(?="))/gi, "")
+      .replace(/\bflex-basis\s*:\s*[^;"]+(;|(?="))/gi, "")
+      // Remove overflow:hidden that may clip content
+      .replace(/\boverflow\s*:\s*hidden\s*(;|(?="))/gi, "")
+  );
 }
 
 function getAboutSections(data: MenuData) {
@@ -66,13 +68,14 @@ function getAboutSections(data: MenuData) {
 export default function AboutAcademyPage() {
   const data = menuJson.data as unknown as MenuData;
   const sections = useMemo(() => getAboutSections(data), [data]);
-  const [activeTab, setActiveTab] = useState(sections[0]?.key ?? 'foundation');
+  const [activeTab, setActiveTab] = useState(sections[0]?.key ?? "foundation");
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
+  console.log("Loaded menu data:", { sections, activeTab, selectedItemId });
 
   const currentSection = sections.find((s) => s.key === activeTab);
   const currentItems = currentSection?.items ?? [];
   const selectedItem = selectedItemId
-    ? currentItems.find((i) => i.id === selectedItemId) ?? currentItems[0]
+    ? (currentItems.find((i) => i.id === selectedItemId) ?? currentItems[0])
     : currentItems[0];
 
   return (
@@ -195,11 +198,9 @@ export default function AboutAcademyPage() {
       `}</style>
 
       <div className="ap-root">
-
         {/* ──────────── HEADER ──────────── */}
         <div className="ap-header-band pt-28">
           <div className="max-w-screen-xl mx-auto px-6 lg:px-14">
-
             {/* Breadcrumb */}
             <motion.nav
               className="flex items-center gap-2 pt-6 text-[11px] tracking-widest text-stone-400 uppercase"
@@ -239,9 +240,12 @@ export default function AboutAcademyPage() {
               {sections.map(({ key, label }, idx) => (
                 <motion.button
                   key={key}
-                  onClick={() => { setActiveTab(key); setSelectedItemId(null); }}
+                  onClick={() => {
+                    setActiveTab(key);
+                    setSelectedItemId(null);
+                  }}
                   className={`relative px-5 lg:px-7 py-4 text-sm font-medium whitespace-nowrap transition-colors duration-200
-                    ${activeTab === key ? 'text-stone-900' : 'text-stone-400 hover:text-stone-600'}`}
+                    ${activeTab === key ? "text-stone-900" : "text-stone-400 hover:text-stone-600"}`}
                   initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: 0.15 + idx * 0.07 }}
@@ -251,13 +255,16 @@ export default function AboutAcademyPage() {
                     <motion.div
                       className="ap-tab-line"
                       layoutId="ap-tab"
-                      transition={{ type: 'spring', stiffness: 500, damping: 42 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 500,
+                        damping: 42,
+                      }}
                     />
                   )}
                 </motion.button>
               ))}
             </nav>
-
           </div>
         </div>
 
@@ -265,17 +272,16 @@ export default function AboutAcademyPage() {
         <div className="max-w-screen-xl mx-auto px-6 lg:px-14 py-12 lg:py-16">
           <div
             className="ap-layout"
-            style={{ display: 'grid', gridTemplateColumns: '256px 1fr' }}
+            style={{ display: "grid", gridTemplateColumns: "256px 1fr" }}
           >
-
             {/* ── Sidebar ── */}
             <aside
               className="ap-sidebar"
-              style={{ borderLeft: '1px solid #e7e5e4', paddingLeft: '2.5rem' }}
+              style={{ borderLeft: "1px solid #e7e5e4", paddingLeft: "2.5rem" }}
             >
               {/* Section label */}
               <p className="text-[10px] font-bold tracking-[0.22em] text-stone-300 uppercase mb-4 pb-3 border-b border-stone-100">
-                {currentSection?.label ?? 'المحتويات'}
+                {currentSection?.label ?? "المحتويات"}
               </p>
 
               <AnimatePresence mode="wait">
@@ -292,23 +298,23 @@ export default function AboutAcademyPage() {
                       <button
                         key={item.id}
                         onClick={() => setSelectedItemId(item.id)}
-                        className={`ap-nav-btn ${isActive ? 'ap-active' : ''} relative w-full text-right flex items-center justify-between gap-3 py-3 pl-4 pr-0 border-b border-stone-100 last:border-none group transition-colors duration-200`}
+                        className={`ap-nav-btn ${isActive ? "ap-active" : ""} relative w-full text-right flex items-center justify-between gap-3 py-3 pl-4 pr-0 border-b border-stone-100 last:border-none group transition-colors duration-200`}
                       >
                         <span
                           className={`text-sm leading-snug transition-colors duration-200 ${
                             isActive
-                              ? 'text-stone-900 font-semibold'
-                              : 'text-stone-400 group-hover:text-stone-700'
+                              ? "text-stone-900 font-semibold"
+                              : "text-stone-400 group-hover:text-stone-700"
                           }`}
                         >
                           {item.name}
                         </span>
                         <span
                           className={`font-mono text-[10px] tabular-nums flex-shrink-0 transition-colors duration-200 ${
-                            isActive ? 'text-red-600' : 'text-stone-300'
+                            isActive ? "text-red-600" : "text-stone-300"
                           }`}
                         >
-                          {String(i + 1).padStart(2, '0')}
+                          {String(i + 1).padStart(2, "0")}
                         </span>
                       </button>
                     );
@@ -318,10 +324,7 @@ export default function AboutAcademyPage() {
             </aside>
 
             {/* ── Main Content ── */}
-            <main
-              className="ap-main"
-              style={{ paddingRight: '3.5rem' }}
-            >
+            <main className="ap-main" style={{ paddingRight: "3.5rem" }}>
               <AnimatePresence mode="wait">
                 {selectedItem ? (
                   <motion.article
@@ -392,7 +395,6 @@ export default function AboutAcademyPage() {
                 )}
               </AnimatePresence>
             </main>
-
           </div>
         </div>
       </div>

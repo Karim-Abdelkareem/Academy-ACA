@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import CardNav from '@/components/CardNav';
-import logo from '@/public/logo.png';
+import CardNav from "@/components/CardNav";
+import logo from "@/public/logo.png";
 import { CardNavItem } from "@/components/CardNav";
-import Footer from '@/components/Footer';
-import ScrollToTop from '@/components/ScrollToTop';
+import Footer from "@/components/Footer";
+import ScrollToTop from "@/components/ScrollToTop";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -32,18 +32,29 @@ export default function RootLayout({
       bgColor: "#0D0716",
       textColor: "#fff",
       links: [
-        { label: "الأكاديمية", href: "/about-academy", ariaLabel: "About Company" },
-        { label: "الأكاديمية", href: "/about-academy", ariaLabel: "About Careers" }
-      ]
+        {
+          label: "الأكاديمية",
+          href: "/about-academy",
+          ariaLabel: "About Company",
+        },
+        {
+          label: "الأكاديمية",
+          href: "/about-academy",
+          ariaLabel: "About Careers",
+        },
+      ],
     },
     {
-      label: "المشاريع",
+      label: "الدراسات",
       bgColor: "#170D27",
       textColor: "#fff",
       links: [
-        { label: "المشاريع", href: "/projects", ariaLabel: "Featured Projects" },
-        { label: "الدراسات", href: "/projects", ariaLabel: "Project Case Studies" }
-      ]
+        {
+          label: "الدرجات العلمية",
+          href: "/projects",
+          ariaLabel: "Project Case Studies",
+        },
+      ],
     },
     {
       label: "الاتصال",
@@ -52,17 +63,15 @@ export default function RootLayout({
       links: [
         { label: "البريد الإلكتروني", href: "/contact", ariaLabel: "Email us" },
         { label: "التويتر", href: "/contact", ariaLabel: "Twitter" },
-        { label: "اللينكدين", href: "/contact", ariaLabel: "LinkedIn" }
-      ]
+        { label: "اللينكدين", href: "/contact", ariaLabel: "LinkedIn" },
+      ],
     },
     {
       label: "الخدمات",
       bgColor: "#170D27",
       textColor: "#fff",
-      links: [
-        { label: "الخدمات", href: "/services", ariaLabel: "Services" }
-      ]
-    }
+      links: [{ label: "الخدمات", href: "/services", ariaLabel: "Services" }],
+    },
   ];
   return (
     <html lang="en">
@@ -80,7 +89,7 @@ export default function RootLayout({
             buttonBgColor="#fff"
             buttonTextColor="#0D0716"
             ease="power3.out"
-            className='w-full fixed top-0'
+            className="w-full fixed top-0"
           />
         </div>
         {children}
