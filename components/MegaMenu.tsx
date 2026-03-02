@@ -29,12 +29,12 @@ const NAV_ITEMS = [
   {
     id: "about",
     label: "عن الأكاديمية",
-    href: "/about",
+    href: "/about-academy",
     mega: {
       featured: {
         title: "مرحباً بكم",
         desc: "الأكاديمية الوطنية لمكافحة الفساد — الذراع التدريبي لهيئة الرقابة الإدارية.",
-        href: "/about",
+        href: "/about-academy",
         color: "from-[#d4af37]/10 to-red-50",
       },
       groups: [
@@ -59,12 +59,12 @@ const NAV_ITEMS = [
   {
     id: "studies",
     label: "الدراسات",
-    href: "/studies",
+    href: "/projects",
     mega: {
       featured: {
         title: "البرامج الأكاديمية",
         desc: "برامج تدريب وتعليم متخصصة في مكافحة الفساد والحوكمة.",
-        href: "/studies",
+        href: "/projects",
         color: "from-blue-50 to-indigo-50",
       },
       groups: [
