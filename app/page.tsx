@@ -98,24 +98,14 @@ export default function Home() {
       </motion.section>
       <hr />
 
-      <motion.section
-        variants={aboutVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: false, amount: 0.2 }}
-      >
+      <div>
         <HomeAbout />
-      </motion.section>
+      </div>
       <hr />
 
-      <motion.section
-        variants={speechVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: false, amount: 0.2 }}
-      >
+      <div>
         <Speach />
-      </motion.section>
+      </div>
       <hr />
 
       <motion.section
