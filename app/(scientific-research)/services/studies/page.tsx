@@ -12,7 +12,7 @@ function ServicesStudies() {
     
     useGSAP(()=>{
         gsap.registerPlugin(ScrollTrigger, SplitText)
-
+        //wait
     }, {scope: containerRef})
 
   return (
