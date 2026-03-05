@@ -1,11 +1,11 @@
 import React from "react";
 
-import MainProject from "./mainProjects";
+import MainServices from "./mainServices";
 
 function layout({ children }: { children: React.ReactNode }) {
   return (
     <div>
-      <MainProject />
+      <MainServices />
       <main>{children}</main>
     </div>
   );

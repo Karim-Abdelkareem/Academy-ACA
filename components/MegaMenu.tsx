@@ -21,6 +21,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Book, BriefcaseBusiness, University } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -71,8 +72,12 @@ const NAV_ITEMS = [
         {
           heading: "الدرجات العلمية",
           links: [
-            { label: "دبلوم الحوكمة", href: "/studies/diploma", icon: "🎓" },
-            { label: "الدراسات العليا", href: "/studies/postgrad", icon: "📘" },
+            // { label: "دبلوم الحوكمة", href: "/studies/diploma", icon: "🎓" },
+            { label: "الدراسات العليا", href: "/projects/diploma", icon: "📘" , nested: [
+              {label: "الدبلومة ", href: "/projects/diploma", icon: <Book />},
+              {label: "الماجستير", href: "/projects/master", icon: <University />},
+              {label: "الدكتوراه", href: "/projects/doctorate", icon: <BriefcaseBusiness />},
+            ]},
           ],
         },
         {
@@ -109,8 +114,8 @@ const NAV_ITEMS = [
         {
           heading: "الخدمات الرئيسية",
           links: [
-            { label: "الاستشارات", href: "/services/consulting", icon: "💡" },
-            { label: "البحث العلمي", href: "/services/research", icon: "🔬" },
+            // { label: "الاستشارات", href: "/services/about", icon: "💡" },
+            { label: "البحث العلمي", href: "/services/about", icon: "🔬" },
             {
               label: "النشر والإصدارات",
               href: "/services/publishing",
@@ -486,7 +491,7 @@ export default function MegaMenu() {
                                 onClick={() => setActiveId(null)}
                                 className="group flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-neutral-50 transition-colors"
                               >
-                                <span className="w-8 h-8 rounded-lg bg-neutral-100 group-hover:bg-white group-hover:shadow-sm flex items-center justify-center text-sm transition-all duration-200 shrink-0">
+                                <span className="w-8 h-8 rounded-lg bg-neutral-100  group-hover:bg-white group-hover:shadow-sm flex items-center  justify-center text-sm transition-all duration-200 shrink-0">
                                   {link.icon}
                                 </span>
                                 <span className="text-sm text-neutral-700 group-hover:text-neutral-900 font-medium transition-colors">
@@ -494,6 +499,27 @@ export default function MegaMenu() {
                                 </span>
                                 <GoArrowUpRight className="w-3.5 h-3.5 text-neutral-300 group-hover:text-[#d4af37] mr-auto transition-colors opacity-0 group-hover:opacity-100" />
                               </Link>
+                              {link.nested && (
+                                <ul className="space-y-1">
+                                  {link.nested.map((nestedLink) => (
+                                    <li key={nestedLink.href}>
+                                      <Link
+                                        href={nestedLink.href}
+                                        onClick={() => setActiveId(null)}
+                                        className="group flex items-center gap-3 px-6 py-1 rounded-xl hover:bg-neutral-50 opacity-60 hover:opacity-100 transition-colors"
+                                      >
+                                        <span className="w-5 h-5 rounded-lg bg-neutral-100 group-hover:scale-110 group-hover:text-red-600 group-hover:bg-white group-hover:shadow-sm flex items-center justify-center text-sm transition-all duration-200 shrink-0">
+                                          {nestedLink.icon}
+                                        </span>
+                                        <span className="text-sm text-neutral-700 group-hover:text-neutral-900 font-medium transition-colors">
+                                          {nestedLink.label}
+                                        </span>
+                                        <GoArrowUpRight className="w-3.5 h-3.5 text-neutral-300 group-hover:text-[#d4af37] mr-auto transition-colors opacity-0 group-hover:opacity-100" />
+                                      </Link>
+                                    </li>
+                                  ))}
+                                </ul>
+                              )}
                             </li>
                           ))}
                         </ul>

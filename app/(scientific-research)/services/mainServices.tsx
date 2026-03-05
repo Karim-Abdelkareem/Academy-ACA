@@ -2,26 +2,33 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 
-function MainProject() {
+function MainServices() {
   const path = usePathname();
-  const [activeTab, setActiveTab] = useState("diploma");
+  const [activeTab, setActiveTab] = useState("about");
   const [selectedItemId, setSelectedItemId] = useState<string | null>(
-    "diploma",
+    "about",
   );
   const Tabs = [
-    { key: "diploma", label: "الدبلومة", href: "/projects/diploma" },
-    { key: "masters", label: "الماجستير", href: "/projects/masters" },
-    { key: "doctorate", label: "الدكتوراه", href: "/projects/doctorate" },
+    { key: "about", label: "عن المركز", href: "/services/about" },
+    { key: "studies", label: "الدراسات والبحوث", href: "/services/studies" },
+    { key: "bookstore", label: "المكتبة", href: "/services/bookstore" },
   ];
 
   function handleItemClick(item: string) {
     const part = path.split("/")[1] + "/" + item;
-    console.log("Navigating to:", part);
     setSelectedItemId(part);
   }
+
+ 
+useEffect(()=>{
+  const part = path.split("/")[2];
+  setActiveTab(part);
+},[path])
+
+
   return (
     <div className="ap-header-band pt-28" dir="rtl">
       <div className="max-w-screen-xl mx-auto px-6 lg:px-14">
@@ -36,10 +43,10 @@ function MainProject() {
             الرئيسية
           </Link>
           <span className="text-stone-300 text-[8px]">◆</span>
-          <span className="text-stone-500">الدراسات</span>
+          <span className="text-stone-500">البحوث العلمية</span>
         </motion.nav>
 
-        {/* Page title */}
+
         <motion.div
           className="py-10"
           initial={{ opacity: 0, y: 22 }}
@@ -47,10 +54,10 @@ function MainProject() {
           transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
         >
           <p className="text-[11px] font-semibold tracking-[0.28em] text-red-700 uppercase mb-3">
-            Graduate-Studies
+            Scientific Research
           </p>
           <h1 className="ap-display text-5xl lg:text-[4.5rem] font-bold text-stone-900 leading-[0.95] tracking-tight">
-            الدراسات
+            البحوث العلمية
           </h1>
           <div className="mt-5 flex items-center gap-3">
             <div className="w-14 h-0.5 bg-red-700 rounded-full" />
@@ -95,4 +102,4 @@ function MainProject() {
   );
 }
 
-export default MainProject;
+export default MainServices;
