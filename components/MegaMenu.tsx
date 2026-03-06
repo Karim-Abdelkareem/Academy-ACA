@@ -73,11 +73,28 @@ const NAV_ITEMS = [
           heading: "الدرجات العلمية",
           links: [
             // { label: "دبلوم الحوكمة", href: "/studies/diploma", icon: "🎓" },
-            { label: "الدراسات العليا", href: "/projects/diploma", icon: "📘" , nested: [
-              {label: "الدبلومة ", href: "/projects/diploma", icon: <Book />},
-              {label: "الماجستير", href: "/projects/master", icon: <University />},
-              {label: "الدكتوراه", href: "/projects/doctorate", icon: <BriefcaseBusiness />},
-            ]},
+            {
+              label: "الدراسات العليا",
+              href: "/projects/diploma",
+              icon: "📘",
+              nested: [
+                {
+                  label: "الدبلومة ",
+                  href: "/projects/diploma",
+                  icon: <Book />,
+                },
+                {
+                  label: "الماجستير",
+                  href: "/projects/master",
+                  icon: <University />,
+                },
+                {
+                  label: "الدكتوراه",
+                  href: "/projects/doctorate",
+                  icon: <BriefcaseBusiness />,
+                },
+              ],
+            },
           ],
         },
         {
