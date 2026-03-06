@@ -11,7 +11,7 @@ import { SplitText } from "gsap/SplitText";
 function DiplomaPage() {
   const cardsContainerRef = useRef<HTMLDivElement>(null);
   const diploma = projMenu.sections.find((section) => section.id === "diploma");
-  const infoRef = useRef<HTMLDivElement | null >(null);
+  const infoRef = useRef<HTMLDivElement | null>(null);
 
   if (!diploma)
     return <p className="text-center py-20">لا توجد بيانات للدبلوم</p>;
@@ -63,38 +63,45 @@ function DiplomaPage() {
       });
       let imgheader = document.querySelector(".imgheader");
 
-
-
       const headertl = gsap.timeline({
-       defaults:{
-       duration: 1,
-        ease: "none",
-        }
-      })
+        defaults: {
+          duration: 1,
+          ease: "none",
+        },
+      });
 
-      var infoText = SplitText.create(infoRef.current.children,{
+      if (!infoRef.current) return;
+
+      var infoText = SplitText.create(infoRef.current.children, {
         type: "lines, words",
         linesClass: "overflow-hidden",
-      })
-      headertl.from(imgheader, {
-        y:20,
-        clipPath: "inset(25% 25% 25% 25%)",
-        delay:1,
-      }).from(infoRef.current?.children,{
-        y:20,
-        autoAlpha:0,
-        stagger:0.5,
-        ease: "elastic",
-      },"<50%") 
-      .from(infoText.words,{
-        x:20,
-        autoAlpha:0,
-        stagger:0.02,
-        ease: "power2.inOut",
-      },"<20%")
-     
-
-
+      });
+      headertl
+        .from(imgheader, {
+          y: 20,
+          clipPath: "inset(25% 25% 25% 25%)",
+          delay: 1,
+        })
+        .from(
+          infoRef.current?.children,
+          {
+            y: 20,
+            autoAlpha: 0,
+            stagger: 0.5,
+            ease: "elastic",
+          },
+          "<50%",
+        )
+        .from(
+          infoText.words,
+          {
+            x: 20,
+            autoAlpha: 0,
+            stagger: 0.02,
+            ease: "power2.inOut",
+          },
+          "<20%",
+        );
     },
     { scope: cardsContainerRef },
   );
@@ -106,7 +113,10 @@ function DiplomaPage() {
         <div className="relative group w-full h-[60vh] sm:h-96 lg:h-[30rem] mx-auto mb-8 rounded-3xl overflow-hidden shadow-2xl">
           <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent z-10 transition-opacity duration-500 group-hover:opacity-70"></div>
 
-          <div ref={infoRef} className="info absolute bottom-4 right-4 sm:bottom-6 sm:right-6 lg:bottom-8 lg:right-8 z-20 space-y-3 lg:space-y-4 w-[calc(100%-2rem)] sm:w-auto max-w-2xl transition-all duration-1000 group-hover:translate-y-3 group-hover:translate-x-3 lg:group-hover:translate-y-5 lg:group-hover:translate-x-5 text-right">
+          <div
+            ref={infoRef}
+            className="info absolute bottom-4 right-4 sm:bottom-6 sm:right-6 lg:bottom-8 lg:right-8 z-20 space-y-3 lg:space-y-4 w-[calc(100%-2rem)] sm:w-auto max-w-2xl transition-all duration-1000 group-hover:translate-y-3 group-hover:translate-x-3 lg:group-hover:translate-y-5 lg:group-hover:translate-x-5 text-right"
+          >
             <h3 className="text-2xl sm:text-3xl lg:text-4xl w-fit font-bold text-white bg-[#d4af37] rounded-xl px-4 py-2 lg:px-6 lg:py-3 shadow-2xl">
               {diploma.name}
             </h3>
