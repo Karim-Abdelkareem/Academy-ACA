@@ -520,7 +520,7 @@ export default function MegaMenu() {
                                 </span>
                                 <GoArrowUpRight className="w-3.5 h-3.5 text-neutral-300 group-hover:text-[#d4af37] mr-auto transition-colors opacity-0 group-hover:opacity-100" />
                               </Link>
-                              {link.nested && (
+                              {"nested" in link && link.nested && (
                                 <ul className="space-y-1">
                                   {link.nested.map((nestedLink) => (
                                     <li key={nestedLink.href}>
