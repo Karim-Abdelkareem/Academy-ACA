@@ -348,24 +348,28 @@ export default function MegaMenu() {
               <div className="flex items-center gap-2 shrink-0">
                 {/* Login + Register pill */}
                 <div className="hidden md:flex items-center gap-1 bg-neutral-900 rounded-full p-1">
-                  <button
-                    title="تسجيل الدخول"
-                    className="group bg-white rounded-full w-8 h-8 flex items-center justify-center cursor-pointer hover:bg-neutral-900 transition-all duration-300"
-                  >
-                    <AiOutlineLogin
-                      size={18}
-                      className="group-hover:text-white transition-colors duration-300"
-                    />
-                  </button>
-                  <button
-                    title="إنشاء حساب"
-                    className="group bg-white rounded-full w-8 h-8 flex items-center justify-center cursor-pointer hover:bg-neutral-900 transition-all duration-300"
-                  >
-                    <MdPersonAddAlt
-                      size={18}
-                      className="group-hover:text-white transition-colors duration-300"
-                    />
-                  </button>
+                  <Link href="/login">
+                    <button
+                      title="تسجيل الدخول"
+                      className="group bg-white rounded-full w-8 h-8 flex items-center justify-center cursor-pointer hover:bg-neutral-900 transition-all duration-300"
+                    >
+                      <AiOutlineLogin
+                        size={18}
+                        className="group-hover:text-white transition-colors duration-300"
+                      />
+                    </button>
+                  </Link>
+                  <Link href="/register">
+                    <button
+                      title="إنشاء حساب"
+                      className="group bg-white rounded-full w-8 h-8 flex items-center justify-center cursor-pointer hover:bg-neutral-900 transition-all duration-300"
+                    >
+                      <MdPersonAddAlt
+                        size={18}
+                        className="group-hover:text-white transition-colors duration-300"
+                      />
+                    </button>
+                  </Link>
                 </div>
 
                 {/* Language switcher */}
