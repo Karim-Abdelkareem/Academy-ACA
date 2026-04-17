@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useGSAP } from "@gsap/react";
 import { useRef } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { CalendarDays, Check, Clock, TriangleAlert } from "lucide-react";
 
 function DiplomaPage() {
   const cardsContainerRef = useRef<HTMLDivElement>(null);
@@ -84,7 +85,7 @@ function DiplomaPage() {
         {diploma.programSections.map((section, idx) => (
           <div
             key={idx}
-            className="stack-card w-full bg-white border border-stone-100 p-8 lg:p-12 rounded-[2.5rem] shadow-[0_15px_40px_rgba(0,0,0,0.06)] mb-[6vh] will-change-transform transform-gpu relative group"
+            className="stack-card w-full bg-white border border-stone-100 p-8 lg:p-12 rounded-[2.5rem]  mb-[6vh] will-change-transform transform-gpu relative group"
             style={{ zIndex: idx }}
           >
             <div className="absolute top-10 left-10 text-stone-100 text-7xl font-black group-hover:text-[#d4af37]/10 transition-colors select-none">
@@ -93,7 +94,7 @@ function DiplomaPage() {
 
             {/* عنوان القسم */}
             <div className="flex items-center gap-4 mb-10 relative z-10">
-              <div className="w-2 h-10 bg-[#d4af37] rounded-full"></div>
+              <div className="w-0.5 h-10 bg-[#d4af37] rounded-full"></div>
               <h2 className="text-3xl font-bold text-stone-800 tracking-tight">
                 {section.titleAr}
               </h2>
@@ -101,8 +102,12 @@ function DiplomaPage() {
 
             {section.warning && (
               <div className="bg-red-50 border-r-4 border-red-500 p-5 rounded-xl mb-8 flex items-center gap-4">
-                <span className="text-2xl">⚠️</span>
-                <p className="text-red-800 font-bold leading-7">
+                <TriangleAlert
+                  className="size-6 shrink-0 text-red-600"
+                  strokeWidth={2}
+                  aria-hidden
+                />
+                <p className="text-red-800 font-medium leading-7">
                   {section.warning}
                 </p>
               </div>
@@ -117,19 +122,21 @@ function DiplomaPage() {
               {/* عرض المصفوفات (أهداف/شروط) */}
               {Array.isArray(section.content) && (
                 <ul className="grid grid-cols-1 gap-4">
-                  {section.content.map((item, i) => (
-                    <li
-                      key={i}
-                      className="gap-3 bg-stone-50 p-4 rounded-2xl border border-stone-100 transition-all hover:shadow-md hover:bg-white"
-                    >
-                      <div className="flex items-baseline align-middles">
-                        <span className="text-[#d4af37] inline-block ml-2 w-2 h-2 bg-[#d4af37] p-1"></span>
-                        <span className="font-medium text-stone-800">
-                          {item}
-                        </span>
-                      </div>
-                    </li>
-                  ))}
+                  {section.content.map((item, i) => {
+                    return (
+                      <li
+                        key={i}
+                        className="gap-3 bg-stone-50 p-4 rounded-2xl border border-stone-100 transition-all hover:shadow-md hover:bg-white"
+                      >
+                        <div className="flex items-baseline align-middles">
+                          <span className="text-[#d4af37] inline-block ml-2 w-2 h-2 bg-[#d4af37] p-1"></span>
+                          <span className="font-medium text-stone-800">
+                            {item}
+                          </span>
+                        </div>
+                      </li>
+                    );
+                  })}
                 </ul>
               )}
 
@@ -145,10 +152,10 @@ function DiplomaPage() {
                         ).map(([semester, courses]: [string, any]) => (
                           <div
                             key={semester}
-                            className="bg-stone-50/50 p-6 rounded-3xl border relative  border-stone-200"
+                            className="bg-stone-50/50 p-6 relative"
                           >
                             <h4 className="font-bold text-[#d4af37] mb-6 text-2xl flex items-center gap-2">
-                              <span className="w-8 h-1 bg-[#d4af37] rounded-full"></span>
+                              {/* <span className="w-8 h-1 bg-[#d4af37] rounded-full"></span> */}
                               {semester === "semester1"
                                 ? "الفصل الدراسي الأول"
                                 : "الفصل الدراسي الثاني"}
@@ -159,7 +166,7 @@ function DiplomaPage() {
                                   key={i}
                                   className="bg-white p-4 rounded-xl shadow-sm border border-stone-100 flex items-center gap-3"
                                 >
-                                  <span className="w-2.5 h-2.5 bg-[#d4af37] rounded-full shadow-[0_0_8px_rgba(212,175,55,0.6)]"></span>
+                                  <span className="w-2 h-2 bg-[#d4af37]"></span>
                                   <span className="font-semibold text-stone-700">
                                     {course}
                                   </span>
@@ -183,9 +190,11 @@ function DiplomaPage() {
                                 key={i}
                                 className="flex items-center gap-3 bg-white p-4 rounded-2xl border border-stone-200 hover:border-[#d4af37] hover:shadow-lg transition-all cursor-default group"
                               >
-                                <span className="text-[#d4af37] group-hover:scale-125 transition-transform font-bold">
-                                  ✓
-                                </span>
+                                <Check
+                                  className="size-5 shrink-0 text-[#d4af37] group-hover:scale-125 transition-transform"
+                                  strokeWidth={2.5}
+                                  aria-hidden
+                                />
                                 <span className="text-md font-medium text-stone-600">
                                   {course}
                                 </span>
@@ -197,17 +206,61 @@ function DiplomaPage() {
                     )}
 
                     {(section.content.duration || section.content.credits) && (
-                      <div className="flex flex-wrap gap-4 pt-6">
-                        <div className="flex items-center gap-3 bg-[#d4af37] text-white px-8 py-3 rounded-2xl shadow-lg">
-                          <span className="font-bold">📅 مدة الدراسة:</span>
-                          <span>{section.content.duration}</span>
-                        </div>
-                        <div className="flex items-center gap-3 bg-stone-900 text-white px-8 py-3 rounded-2xl shadow-lg">
-                          <span className="font-bold">
-                            ⏱️ الساعات المعتمدة:
-                          </span>
-                          <span>{section.content.credits} ساعة</span>
-                        </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-6">
+                        {section.content.duration && (
+                          <div className="group relative overflow-hidden rounded-2xl border border-stone-200 bg-white p-6 transition-all duration-300  hover:border-[#d4af37]/60 ">
+                            <span
+                              aria-hidden
+                              className="absolute inset-y-0 right-0 w-1 bg-linear-to-b from-[#d4af37] to-[#c9a227]"
+                            />
+                            <div className="flex items-center gap-4">
+                              <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-[#d4af37]/15 text-[#c9a227] transition-transform duration-300 group-hover:scale-110">
+                                <CalendarDays
+                                  className="size-6"
+                                  strokeWidth={2}
+                                  aria-hidden
+                                />
+                              </span>
+                              <div className="flex-1 min-w-0">
+                                <p className="text-xs font-semibold tracking-wider text-stone-400 uppercase">
+                                  مدة الدراسة
+                                </p>
+                                <p className="text-xl font-bold text-stone-900 leading-tight mt-0.5">
+                                  {section.content.duration}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
+                        {section.content.credits && (
+                          <div className="group relative overflow-hidden rounded-2xl border border-stone-200 bg-black text-white p-6 transition-all duration-300">
+                            <span
+                              aria-hidden
+                              className="absolute inset-y-0 right-0 w-1 bg-linear-to-b from-[#d4af37] to-[#c9a227]"
+                            />
+                            <div className="flex items-center gap-4">
+                              <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-white/10 text-[#d4af37] transition-transform duration-300 group-hover:scale-110">
+                                <Clock
+                                  className="size-6"
+                                  strokeWidth={2}
+                                  aria-hidden
+                                />
+                              </span>
+                              <div className="flex-1 min-w-0">
+                                <p className="text-xs font-semibold tracking-wider text-stone-400 uppercase">
+                                  الساعات المعتمدة
+                                </p>
+                                <p className="text-xl lg:text-2xl font-black text-[#d4af37] leading-tight mt-0.5">
+                                  {section.content.credits}{" "}
+                                  <span className="text-base font-bold text-white/80">
+                                    ساعة
+                                  </span>
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>

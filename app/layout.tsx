@@ -1,12 +1,24 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import type { Metadata } from "next";
+import { Cairo, Geist_Mono, Noto_Sans, Noto_Sans_Arabic } from "next/font/google";
 import HydrationSafeMegaMenu from "@/components/HydrationSafeMegaMenu";
 import Footer from "@/components/Footer";
 import ScrollToTop from "@/components/ScrollToTop";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+/** Headings (h1–h6) — applied in globals.css */
+const cairo = Cairo({
+  variable: "--font-cairo",
+  subsets: ["arabic", "latin"],
+});
+
+/** Body: Arabic first, then Latin */
+const notoSansArabic = Noto_Sans_Arabic({
+  variable: "--font-noto-sans-arabic",
+  subsets: ["arabic"],
+});
+
+const notoSans = Noto_Sans({
+  variable: "--font-noto-sans",
   subsets: ["latin"],
 });
 
@@ -28,7 +40,7 @@ export default function RootLayout({
   return (
     <html lang="ar">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${cairo.variable} ${notoSansArabic.variable} ${notoSans.variable} ${geistMono.variable} font-sans antialiased`}
       >
         <HydrationSafeMegaMenu />
         {children}

@@ -4,13 +4,12 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import { ChevronRightIcon } from "lucide-react";
 
 function MainServices() {
   const path = usePathname();
   const [activeTab, setActiveTab] = useState("about");
-  const [selectedItemId, setSelectedItemId] = useState<string | null>(
-    "about",
-  );
+  const [selectedItemId, setSelectedItemId] = useState<string | null>("about");
   const Tabs = [
     { key: "about", label: "عن المركز", href: "/services/about" },
     { key: "studies", label: "الدراسات والبحوث", href: "/services/studies" },
@@ -22,12 +21,10 @@ function MainServices() {
     setSelectedItemId(part);
   }
 
- 
-useEffect(()=>{
-  const part = path.split("/")[2];
-  setActiveTab(part);
-},[path])
-
+  useEffect(() => {
+    const part = path.split("/")[2];
+    setActiveTab(part);
+  }, [path]);
 
   return (
     <div className="ap-header-band" dir="rtl">
@@ -42,10 +39,11 @@ useEffect(()=>{
           <Link href="/" className="hover:text-red-700 transition-colors">
             الرئيسية
           </Link>
-          <span className="text-stone-300 text-[8px]">◆</span>
+          <span className="text-stone-300 text-[8px]">
+            <ChevronRightIcon className="w-4 h-4" />
+          </span>
           <span className="text-stone-500">البحوث العلمية</span>
         </motion.nav>
-
 
         <motion.div
           className="py-10"
@@ -56,7 +54,7 @@ useEffect(()=>{
           {/* <p className="text-[11px] font-semibold tracking-[0.28em] text-red-700 uppercase mb-3">
             Scientific Research
           </p> */}
-          <h1 className="ap-display text-4xl lg:text-[4rem] font-bold text-stone-900 leading-[0.95] tracking-tight">
+          <h1 className="ap-display text-4xl lg:text-5xl font-bold text-stone-900 leading-[0.95] tracking-tight">
             البحوث العلمية
           </h1>
           {/* <div className="mt-5 flex items-center gap-3">

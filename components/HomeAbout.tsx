@@ -1,39 +1,57 @@
 "use client";
 
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { AnimatePresence, motion } from "framer-motion";
+import { Building2, ClipboardList, Telescope } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const TABS = [
+type Pillar = {
+  id: string;
+  no: string;
+  label: string;
+  Icon: typeof Building2;
+  title: string;
+  content: string;
+  stat: { value: string; label: string };
+  accent: string;
+};
+
+const PILLARS: Pillar[] = [
   {
     id: "origin",
+    no: "01",
     label: "نشأة الأكاديمية",
-    icon: "🏛",
+    Icon: Building2,
     title: "نشأة الأكاديمية",
     content:
       "في إطار سعى الدولة لتعزيز مبدأ الشفافية، ومكافحة الفساد المالي والإداري بشتى صوره ومظاهره وأساليبه، وتحقيق النزاهة داخل جميع الجهات والأجهزة العامة في الدولة تم تأسيس الأكاديمية الوطنية لمكافحة الفساد بموجب القانون رقم 207 لسنة 2017 ككيان تابع لهيئة الرقابة الإدارية للمعاونة في تحقيق الأهداف القومية في هذا المجال.",
     stat: { value: "2017", label: "سنة التأسيس" },
+    accent: "from-[#d4af37] to-[#c9a227]",
   },
   {
     id: "vision",
+    no: "02",
     label: "الرؤية",
-    icon: "🔭",
-    title: "الرؤية",
+    Icon: Telescope,
+    title: "رؤيتنا",
     content:
       "أن تصبح الأكاديمية الوطنية لمكافحة الفساد هي المرجعية الأساسية للتعليم والتدريب والتطوير في العلوم والمعارف والمهارات المتعلقة بمكافحة الفساد والوقاية منه، وفي المجالات الأخرى ذات الصلة على المستوى المحلي والإقليمي والدولي.",
-    stat: { value: "٣", label: "مستويات: محلي · إقليمي · دولي" },
+    stat: { value: "3", label: "محلي · إقليمي · دولي" },
+    accent: "from-red-500 to-red-600",
   },
   {
     id: "mission",
+    no: "03",
     label: "الرسالة",
-    icon: "📋",
-    title: "الرسالة",
+    Icon: ClipboardList,
+    title: "رسالتنا",
     content:
       "تقديم الخدمات المعرفية والعلمية والتدريبية والبحثية المتميزة للمجتمع المصري والإقليمي والدولي في مجال مكافحة الفساد والوقاية منه وفي باقي المجالات ذات الصلة بأعلى درجات الجودة والحداثة، وذلك باستخدام أحدث وسائل التعليم والتدريب والتطوير وبالاستعانة بالتقنيات العلمية الحديثة من خلال منظومة تدريبية متكاملة ومتطورة.",
-    stat: { value: "٤", label: "خدمات: معرفية · علمية · تدريبية · بحثية" },
+    stat: { value: "4", label: "معرفية · علمية · تدريبية · بحثية" },
+    accent: "from-neutral-800 to-neutral-900",
   },
 ];
 
@@ -46,193 +64,109 @@ const STATS = [
 
 export default function HomeAbout() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const activeTab = TABS[activeIndex];
+  const active = PILLARS[activeIndex];
 
   const sectionRef = useRef<HTMLElement>(null);
-  const pinContainerRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
-  const subtitleRef = useRef<HTMLSpanElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const decorLineRef = useRef<HTMLDivElement>(null);
-  const tabsColRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
+  const mainRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
-  const bgShape1Ref = useRef<HTMLDivElement>(null);
-  const bgShape2Ref = useRef<HTMLDivElement>(null);
-  const bgShape3Ref = useRef<HTMLDivElement>(null);
-  const progressBarRef = useRef<HTMLDivElement>(null);
-
-  // Stable callback ref for the scroll-triggered tab change
-  const activeIndexRef = useRef(0);
-  const setActiveTab = useCallback((index: number) => {
-    if (activeIndexRef.current !== index) {
-      activeIndexRef.current = index;
-      setActiveIndex(index);
-    }
-  }, []);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // ── Background shapes parallax ──
-      gsap.to(bgShape1Ref.current, {
-        y: -80,
-        rotation: 15,
-        ease: "none",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 1,
-        },
-      });
-      gsap.to(bgShape2Ref.current, {
-        y: -60,
-        x: 40,
-        ease: "none",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 1.5,
-        },
-      });
-      gsap.to(bgShape3Ref.current, {
-        y: -100,
-        scale: 1.15,
-        ease: "none",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 2,
-        },
-      });
-
-      // ── Header entrance ──
-      const headerTL = gsap.timeline({
-        scrollTrigger: {
-          trigger: headerRef.current,
-          start: "top 85%",
-          end: "top 55%",
-          toggleActions: "play none none reverse",
-        },
-      });
-
-      headerTL
-        .from(subtitleRef.current, {
-          opacity: 0,
-          y: 20,
-          letterSpacing: "0em",
-          duration: 0.6,
-          ease: "power3.out",
-        })
-        .from(
-          titleRef.current,
-          {
-            opacity: 0,
-            y: 40,
-            scale: 0.92,
-            duration: 0.7,
-            ease: "power3.out",
-          },
-          "-=0.3",
-        )
-        .from(
-          decorLineRef.current,
-          {
-            scaleX: 0,
-            duration: 0.5,
-            ease: "power2.out",
-          },
-          "-=0.3",
-        );
-
-      // ── Tab buttons stagger ──
-      if (tabsColRef.current) {
-        const buttons = tabsColRef.current.querySelectorAll(".about-tab-btn");
-        gsap.from(buttons, {
-          opacity: 0,
-          x: 50,
-          stagger: 0.12,
-          duration: 0.6,
-          ease: "back.out(1.4)",
+      // ── Header entrance (once) ──
+      if (headerRef.current) {
+        const tl = gsap.timeline({
           scrollTrigger: {
-            trigger: tabsColRef.current,
-            start: "top 80%",
-            toggleActions: "play none none reverse",
+            trigger: headerRef.current,
+            start: "top 85%",
+            once: true,
           },
         });
+
+        tl.from(headerRef.current.querySelector(".about-subtitle"), {
+          opacity: 0,
+          y: 16,
+          duration: 0.5,
+          ease: "power3.out",
+        })
+          .from(
+            headerRef.current.querySelector(".about-title"),
+            {
+              opacity: 0,
+              y: 30,
+              scale: 0.95,
+              duration: 0.6,
+              ease: "power3.out",
+            },
+            "-=0.25",
+          )
+          .from(
+            headerRef.current.querySelector(".about-decor"),
+            { scaleX: 0, duration: 0.45, ease: "power2.out" },
+            "-=0.3",
+          );
       }
 
-      // ── Content panel slide-up ──
-      gsap.from(contentRef.current, {
-        opacity: 0,
-        y: 60,
-        duration: 0.8,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: contentRef.current,
-          start: "top 85%",
-          toggleActions: "play none none reverse",
-        },
-      });
-
-      // ═══ SCROLL-DRIVEN TAB SWITCHING ═══
-      // Pin the content area and switch tabs as user scrolls
-      ScrollTrigger.create({
-        trigger: pinContainerRef.current,
-        start: "top 15%",
-        end: `+=${window.innerHeight * 2}`, // scroll distance = 2x viewport
-        pin: true,
-        pinSpacing: true,
-        scrub: 0.5,
-        onUpdate: (self) => {
-          const progress = self.progress; // 0 → 1
-          const segment = 1 / TABS.length;
-          const newIndex = Math.min(
-            Math.floor(progress / segment),
-            TABS.length - 1,
-          );
-          setActiveTab(newIndex);
-
-          // Update progress bar
-          if (progressBarRef.current) {
-            progressBarRef.current.style.width = `${progress * 100}%`;
-          }
-        },
-      });
-
-      // ── Stats counter animation ──
-      if (statsRef.current) {
-        const statItems = statsRef.current.querySelectorAll(".stat-item");
-
-        gsap.from(statItems, {
+      // ── Main magazine spread entrance (once) ──
+      if (mainRef.current) {
+        gsap.from(mainRef.current.querySelector(".about-feature"), {
           opacity: 0,
-          y: 30,
-          scale: 0.9,
-          stagger: 0.1,
+          y: 40,
+          duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: mainRef.current,
+            start: "top 80%",
+            once: true,
+          },
+        });
+
+        const previews = mainRef.current.querySelectorAll(".about-preview");
+        if (previews.length) {
+          gsap.from(previews, {
+            opacity: 0,
+            x: -40,
+            stagger: 0.12,
+            duration: 0.6,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: mainRef.current,
+              start: "top 80%",
+              once: true,
+            },
+          });
+        }
+      }
+
+      // ── Stats bar entrance + counters (once) ──
+      if (statsRef.current) {
+        const items = statsRef.current.querySelectorAll(".stat-item");
+        gsap.from(items, {
+          opacity: 0,
+          y: 24,
+          scale: 0.92,
+          stagger: 0.08,
           duration: 0.5,
           ease: "back.out(1.6)",
           scrollTrigger: {
             trigger: statsRef.current,
-            start: "top 85%",
-            toggleActions: "play none none reverse",
+            start: "top 88%",
+            once: true,
           },
         });
 
-        // Animate the numbers
-        const counterEls = statsRef.current.querySelectorAll(".stat-counter");
-        counterEls.forEach((el, i) => {
+        const counters = statsRef.current.querySelectorAll(".stat-counter");
+        counters.forEach((el, i) => {
           const target = STATS[i].value;
           const obj = { val: 0 };
           gsap.to(obj, {
             val: target,
-            duration: 2,
+            duration: 1.8,
             ease: "power2.out",
             scrollTrigger: {
               trigger: statsRef.current,
-              start: "top 85%",
-              toggleActions: "play none none reverse",
+              start: "top 88%",
+              once: true,
             },
             onUpdate: () => {
               (el as HTMLElement).textContent = Math.round(obj.val).toString();
@@ -243,44 +177,33 @@ export default function HomeAbout() {
     }, sectionRef);
 
     return () => ctx.revert();
-  }, [setActiveTab]);
+  }, []);
 
   return (
     <section
       ref={sectionRef}
-      className="relative w-full py-24 md:py-32 overflow-hidden bg-gradient-to-b from-white via-neutral-50/80 to-white"
+      className="relative w-full py-8 bg-linear-to-b from-white via-neutral-50/80 to-white"
       dir="rtl"
-      style={{ fontFamily: "'Cairo', 'Noto Kufi Arabic', sans-serif" }}
     >
-      {/* ═══ Animated background shapes ═══ */}
+      {/* ═══ Decorative background ═══ */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div
-          ref={bgShape1Ref}
-          className="absolute -top-20 -right-20 w-[500px] h-[500px] rounded-full border border-red-100/40"
+          className="absolute -top-32 -right-24 w-[520px] h-[520px] rounded-full opacity-60"
           style={{
             background:
-              "radial-gradient(circle, rgba(212,175,55,0.08) 0%, transparent 70%)",
+              "radial-gradient(circle, rgba(212,175,55,0.10) 0%, transparent 70%)",
           }}
         />
         <div
-          ref={bgShape2Ref}
-          className="absolute top-1/2 -left-32 w-[400px] h-[400px] rounded-full"
+          className="absolute bottom-10 -left-32 w-[420px] h-[420px] rounded-full opacity-70"
           style={{
             background:
               "radial-gradient(circle, rgba(220,38,38,0.06) 0%, transparent 70%)",
           }}
         />
+        {/* Dotted grid */}
         <div
-          ref={bgShape3Ref}
-          className="absolute bottom-0 right-1/4 w-[300px] h-[300px] rounded-full"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(212,175,55,0.05) 0%, transparent 70%)",
-          }}
-        />
-        {/* Decorative grid dots */}
-        <div
-          className="absolute top-16 left-10 w-32 h-32 opacity-[0.04]"
+          className="absolute top-20 left-12 w-40 h-40 opacity-[0.05]"
           style={{
             backgroundImage:
               "radial-gradient(circle, #000 1px, transparent 1px)",
@@ -288,7 +211,7 @@ export default function HomeAbout() {
           }}
         />
         <div
-          className="absolute bottom-20 right-10 w-40 h-40 opacity-[0.04]"
+          className="absolute bottom-24 right-16 w-44 h-44 opacity-[0.05]"
           style={{
             backgroundImage:
               "radial-gradient(circle, #000 1px, transparent 1px)",
@@ -297,97 +220,186 @@ export default function HomeAbout() {
         />
       </div>
 
-      <div className="relative z-10 w-[90%] max-w-6xl mx-auto">
+      <div className="relative z-10 w-[92%] max-w-6xl mx-auto">
         {/* ═══ Header ═══ */}
         <div
           ref={headerRef}
           className="mb-16 flex flex-col items-center gap-3 text-center"
         >
-          <span
-            ref={subtitleRef}
-            className="text-red-500 text-xs font-mono tracking-[0.4em] uppercase bg-red-50 px-4 py-1.5 rounded-full border border-red-100"
-          >
+          <span className="about-subtitle text-red-500 text-xs font-mono tracking-[0.4em] uppercase">
             تعرف علينا
           </span>
-          <h2
-            ref={titleRef}
-            className="text-neutral-900 text-4xl md:text-5xl lg:text-6xl font-black leading-none mt-2"
-          >
+          <h2 className="about-title text-neutral-900 text-4xl md:text-5xl font-black leading-none mt-2">
             عن الأكاديمية
-            <span className="text-red-600">.</span>
           </h2>
-          <div
-            ref={decorLineRef}
-            className="w-20 h-1 bg-gradient-to-l from-[#d4af37] to-red-500 rounded-full mt-3 origin-center"
-          />
+          <div className="about-decor w-20 h-1 bg-linear-to-l from-[#d4af37] to-red-500 rounded-full mt-3 origin-center" />
+          <p className="text-neutral-500 text-sm md:text-base max-w-xl leading-relaxed mt-2">
+            ثلاث ركائز تُعرّفك بمسيرة الأكاديمية ومستقبلها ودورها في ترسيخ قيم
+            النزاهة.
+          </p>
         </div>
 
-        {/* ═══ PINNED AREA — scrolls through tabs ═══ */}
-        <div ref={pinContainerRef}>
-          {/* Scroll progress bar */}
-          <div className="mb-6 flex items-center gap-3">
-            <div className="flex-1 h-1 bg-neutral-100 rounded-full overflow-hidden">
-              <div
-                ref={progressBarRef}
-                className="h-full bg-gradient-to-l from-[#d4af37] via-red-500 to-[#d4af37] rounded-full transition-none"
-                style={{ width: "0%" }}
-              />
-            </div>
-            <span className="text-xs text-neutral-400 font-mono tabular-nums min-w-[3ch] text-center">
-              {activeIndex + 1}/{TABS.length}
-            </span>
+        {/* ═══ Magazine spread: Feature + Previews ═══ */}
+        <div
+          ref={mainRef}
+          className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8"
+        >
+          {/* ─── Featured pillar (large) ─── */}
+          <div className="about-feature lg:col-span-8">
+            <AnimatePresence mode="wait">
+              <motion.article
+                key={active.id}
+                initial={{ opacity: 0, y: 30, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -20, scale: 0.98 }}
+                transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                className="relative h-full rounded-3xl border border-neutral-200/80 bg-white shadow-xl shadow-neutral-100/60 overflow-hidden"
+              >
+                {/* Top accent bar */}
+                <div
+                  className={`absolute top-0 inset-x-0 h-1.5 bg-linear-to-l ${active.accent}`}
+                />
+
+                {/* Giant number watermark */}
+                <div className="absolute -top-4 left-4 text-[140px] md:text-[180px] font-black text-neutral-100/70 leading-none select-none pointer-events-none">
+                  {active.no}
+                </div>
+
+                <div className="relative z-10 p-8 md:p-12 flex flex-col gap-7">
+                  {/* Label row */}
+                  <div className="flex items-center gap-3">
+                    <span
+                      className={`inline-flex items-baseline gap-2 text-[11px] font-mono tracking-[0.3em] uppercase px-3 py-1.5 rounded-full bg-linear-to-l ${active.accent} text-white shadow-sm`}
+                    >
+                      <active.Icon
+                        className="size-4 shrink-0 opacity-95"
+                        strokeWidth={2}
+                        aria-hidden
+                      />
+                      {active.label}
+                    </span>
+                    <div className="flex-1 h-px bg-linear-to-l from-neutral-200 to-transparent" />
+                  </div>
+
+                  {/* Title */}
+                  <div>
+                    <h3 className="text-3xl md:text-5xl font-black text-neutral-900 leading-tight">
+                      {active.title}
+                      <span className="text-red-600">.</span>
+                    </h3>
+                  </div>
+
+                  {/* Body */}
+                  <p className="text-neutral-600 leading-loose text-base md:text-lg">
+                    {active.content}
+                  </p>
+
+                  {/* Footer row */}
+                  <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-neutral-100">
+                    {/* Stat badge */}
+                    <div className="flex items-center gap-4">
+                      <div className="flex flex-col items-center gap-0.5 bg-linear-to-b from-neutral-50 to-white border border-neutral-200 rounded-2xl px-5 py-3 shadow-sm">
+                        <span className="text-[#c9a227] font-black text-2xl leading-none font-mono">
+                          {active.stat.value}
+                        </span>
+                      </div>
+                      <span className="text-neutral-500 text-xs md:text-sm max-w-[220px] leading-snug">
+                        {active.stat.label}
+                      </span>
+                    </div>
+
+                    {/* Pagination dots */}
+                    <div className="flex items-center gap-2">
+                      {PILLARS.map((p, i) => (
+                        <button
+                          key={p.id}
+                          onClick={() => setActiveIndex(i)}
+                          aria-label={p.label}
+                          className={`rounded-full transition-all duration-300 cursor-pointer ${
+                            activeIndex === i
+                              ? "bg-linear-to-l from-red-600 to-red-500 w-8 h-2.5 shadow-sm shadow-red-200"
+                              : "bg-neutral-200 hover:bg-neutral-300 w-2.5 h-2.5"
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </motion.article>
+            </AnimatePresence>
           </div>
 
-          {/* ═══ Layout: tabs + content ═══ */}
-          <div className="flex flex-col md:flex-row gap-6 items-stretch">
-            {/* --- Tab buttons column --- */}
-            <div
-              ref={tabsColRef}
-              className="flex flex-row md:flex-col gap-3 md:w-56 shrink-0"
-            >
-              {TABS.map((tab, i) => {
-                const isActive = activeIndex === i;
-                const isPast = i < activeIndex;
-                return (
-                  <button
-                    key={tab.id}
-                    onClick={() => setActiveTab(i)}
-                    className={`about-tab-btn group relative flex items-center gap-3 px-5 py-4 rounded-2xl text-right
-                      font-semibold text-sm transition-all duration-300 overflow-hidden
-                      border focus:outline-none cursor-pointer
-                      ${
-                        isActive
-                          ? "bg-gradient-to-l from-[#d4af37] to-[#c9a227] border-[#b8922a] text-neutral-900 shadow-lg shadow-amber-200/30 scale-[1.02]"
-                          : isPast
-                            ? "bg-green-50 border-green-200 text-green-700"
-                            : "bg-white border-neutral-200 text-neutral-500 hover:border-neutral-300 hover:bg-neutral-50 hover:shadow-md hover:translate-x-[-4px]"
-                      }`}
-                  >
-                    {/* Active side indicator */}
-                    {isActive && (
-                      <motion.div
-                        layoutId="activeTabBar"
-                        className="absolute right-0 top-2 bottom-2 w-1 bg-red-600 rounded-l-full"
-                        transition={{
-                          type: "spring",
-                          stiffness: 380,
-                          damping: 30,
-                        }}
-                      />
-                    )}
-                    {/* Past check mark */}
-                    {isPast && (
-                      <div className="absolute right-0 top-2 bottom-2 w-1 bg-green-400 rounded-l-full" />
-                    )}
+          {/* ─── Preview column ─── */}
+          <div className="lg:col-span-4 flex flex-col gap-4">
+            {PILLARS.map((p, i) => {
+              const isActive = i === activeIndex;
+              return (
+                <button
+                  key={p.id}
+                  onClick={() => setActiveIndex(i)}
+                  className={`about-preview group relative text-right overflow-hidden rounded-2xl border p-5 transition-all duration-300 cursor-pointer
+                    ${
+                      isActive
+                        ? "bg-neutral-900 border-neutral-900 text-white shadow-xl shadow-neutral-900/10 scale-[1.01]"
+                        : "bg-white border-neutral-200/80 text-neutral-700 hover:border-neutral-300 hover:shadow-lg hover:-translate-y-0.5"
+                    }`}
+                >
+                  {/* Active indicator */}
+                  {isActive && (
+                    <motion.span
+                      layoutId="aboutActiveBar"
+                      className={`absolute top-0 bottom-0 right-0 w-1 bg-linear-to-b ${p.accent}`}
+                      transition={{
+                        type: "spring",
+                        stiffness: 380,
+                        damping: 30,
+                      }}
+                    />
+                  )}
+
+                  <div className="flex items-start gap-4">
+                    {/* Number */}
                     <span
-                      className={`text-xl transition-transform duration-300 ${isActive ? "scale-110" : "group-hover:scale-110"}`}
+                      className={`shrink-0 text-2xl font-black font-mono leading-none ${
+                        isActive ? "text-[#d4af37]" : "text-neutral-300"
+                      }`}
                     >
-                      {isPast ? "✓" : tab.icon}
+                      {p.no}
                     </span>
-                    <span className="flex-1">{tab.label}</span>
-                    {/* Arrow indicator */}
+
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1.5">
+                        <p.Icon
+                          className={`size-5 shrink-0 ${
+                            isActive ? "text-[#d4af37]" : "text-neutral-400"
+                          }`}
+                          strokeWidth={2}
+                          aria-hidden
+                        />
+                        <span
+                          className={`font-bold text-sm md:text-base ${
+                            isActive ? "text-white" : "text-neutral-900"
+                          }`}
+                        >
+                          {p.label}
+                        </span>
+                      </div>
+                      <p
+                        className={`text-xs md:text-[13px] leading-relaxed line-clamp-2 ${
+                          isActive ? "text-white/70" : "text-neutral-500"
+                        }`}
+                      >
+                        {p.content}
+                      </p>
+                    </div>
+
+                    {/* Arrow */}
                     <svg
-                      className={`w-4 h-4 transition-all duration-300 ${isActive ? "opacity-100 translate-x-0" : "opacity-0 translate-x-2"}`}
+                      className={`shrink-0 w-4 h-4 mt-1 transition-all duration-300 ${
+                        isActive
+                          ? "opacity-100 translate-x-0 text-[#d4af37]"
+                          : "opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 text-neutral-400"
+                      }`}
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -399,137 +411,10 @@ export default function HomeAbout() {
                         d="M15 19l-7-7 7-7"
                       />
                     </svg>
-                  </button>
-                );
-              })}
-
-              {/* Scroll hint */}
-              <motion.div
-                className="hidden md:flex flex-col items-center gap-2 mt-4"
-                animate={{ y: [0, 6, 0] }}
-                transition={{
-                  duration: 1.8,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              >
-                <span className="text-[10px] text-neutral-400 font-mono tracking-wider">
-                  SCROLL
-                </span>
-                <svg
-                  className="w-4 h-4 text-neutral-300"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 14l-7 7m0 0l-7-7m7 7V3"
-                  />
-                </svg>
-              </motion.div>
-            </div>
-
-            {/* --- Content panel --- */}
-            <div ref={contentRef} className="flex-1 min-w-0">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeIndex}
-                  initial={{ opacity: 0, y: 30, scale: 0.97 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -20, scale: 0.97 }}
-                  transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-                  className="relative h-full rounded-3xl border border-neutral-200/80 bg-white shadow-xl shadow-neutral-100/50 overflow-hidden"
-                >
-                  {/* Top accent strip with gradient */}
-                  <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-l from-[#d4af37] via-red-500 to-[#d4af37]" />
-
-                  {/* Subtle corner decoration */}
-                  <div className="absolute top-0 left-0 w-24 h-24 opacity-[0.03]">
-                    <svg viewBox="0 0 100 100" fill="currentColor">
-                      <circle cx="0" cy="0" r="80" />
-                    </svg>
                   </div>
-
-                  {/* Step number watermark */}
-                  <div className="absolute top-4 left-6 text-[72px] md:text-[96px] font-black text-neutral-100/60 leading-none select-none pointer-events-none">
-                    {String(activeIndex + 1).padStart(2, "0")}
-                  </div>
-
-                  <div className="p-8 md:p-10 flex flex-col gap-6 relative z-10">
-                    {/* Title row */}
-                    <div className="flex items-start justify-between gap-4">
-                      <div>
-                        <h3 className="text-2xl md:text-3xl font-black text-neutral-900 mb-1">
-                          {activeTab.title}
-                          <span className="text-red-600">.</span>
-                        </h3>
-                        <div className="flex items-center gap-2">
-                          <div className="w-8 h-[2px] bg-gradient-to-l from-[#d4af37] to-transparent rounded-full" />
-                          <span className="text-neutral-400 text-xs">
-                            الأكاديمية الوطنية لمكافحة الفساد
-                          </span>
-                        </div>
-                      </div>
-                      {/* Stat badge */}
-                      <div className="shrink-0 flex flex-col items-center gap-1 bg-gradient-to-b from-neutral-50 to-white border border-neutral-200 rounded-2xl px-5 py-4 text-center shadow-sm">
-                        <span className="text-[#c9a227] font-black text-2xl leading-none font-mono">
-                          {activeTab.stat.value}
-                        </span>
-                        <span className="text-neutral-400 text-[10px] leading-tight max-w-[90px]">
-                          {activeTab.stat.label}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Divider with icon */}
-                    <div className="flex items-center gap-3">
-                      <div className="flex-1 h-px bg-gradient-to-l from-neutral-200 to-transparent" />
-                      <div className="w-6 h-6 rounded-full bg-neutral-100 flex items-center justify-center text-xs">
-                        ✦
-                      </div>
-                      <div className="flex-1 h-px bg-gradient-to-r from-neutral-200 to-transparent" />
-                    </div>
-
-                    {/* Body text */}
-                    <p className="text-neutral-600 leading-[2] text-lg flex-1">
-                      {activeTab.content}
-                    </p>
-
-                    {/* Bottom row */}
-                    <div className="flex items-center justify-between pt-2 border-t border-neutral-100">
-                      {/* Step indicators */}
-                      <div className="flex gap-2 items-center">
-                        {TABS.map((t, i) => (
-                          <button
-                            key={t.id}
-                            onClick={() => setActiveTab(i)}
-                            className={`rounded-full transition-all duration-400 cursor-pointer ${
-                              activeIndex === i
-                                ? "bg-gradient-to-l from-red-600 to-red-500 w-8 h-2.5 shadow-sm shadow-red-200"
-                                : i < activeIndex
-                                  ? "bg-green-400 w-2.5 h-2.5"
-                                  : "bg-neutral-200 hover:bg-neutral-300 w-2.5 h-2.5"
-                            }`}
-                          />
-                        ))}
-                      </div>
-                      <a
-                        href="#"
-                        className="group text-xs text-neutral-400 hover:text-red-600 font-mono tracking-wide transition-colors flex items-center gap-2"
-                      >
-                        اقرأ المزيد
-                        <span className="inline-block transition-transform duration-300 group-hover:-translate-x-1">
-                          ←
-                        </span>
-                      </a>
-                    </div>
-                  </div>
-                </motion.div>
-              </AnimatePresence>
-            </div>
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -545,8 +430,7 @@ export default function HomeAbout() {
                 hover:shadow-xl hover:shadow-neutral-100/50 hover:border-neutral-300 hover:-translate-y-1
                 transition-all duration-400 cursor-default overflow-hidden"
             >
-              {/* Hover gradient */}
-              <div className="absolute inset-0 bg-gradient-to-b from-amber-50/0 to-amber-50/0 group-hover:from-amber-50/50 group-hover:to-transparent transition-all duration-500" />
+              <div className="absolute inset-0 bg-linear-to-b from-amber-50/0 to-amber-50/0 group-hover:from-amber-50/50 group-hover:to-transparent transition-all duration-500" />
               <div className="relative z-10">
                 <div className="flex items-baseline justify-center gap-0.5 mb-2">
                   <span className="stat-counter text-3xl md:text-4xl font-black text-[#c9a227] font-mono">
@@ -562,8 +446,7 @@ export default function HomeAbout() {
                   {stat.label}
                 </span>
               </div>
-              {/* Bottom accent line on hover */}
-              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 group-hover:w-1/2 h-0.5 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent transition-all duration-500" />
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 group-hover:w-1/2 h-0.5 bg-linear-to-r from-transparent via-[#d4af37] to-transparent transition-all duration-500" />
             </div>
           ))}
         </div>

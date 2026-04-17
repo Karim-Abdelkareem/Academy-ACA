@@ -1,11 +1,9 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { library } from "@/data/library.json";
 import { TbArrowBigDownLinesFilled } from "react-icons/tb";
+import { Grid, List } from "lucide-react";
 
 const BOOKSTORE_DATA = library.map((item, i) => ({
   id: item["paper id"] || i,
@@ -24,69 +22,29 @@ export default function ServicesBookstore() {
     setOpenDropdownId(openDropdownId === id ? null : id);
   };
 
-  useGSAP(
-    () => {
-      gsap.registerPlugin(ScrollTrigger);
-
-      const cards = gsap.utils.toArray(".cards") as HTMLElement[];
-
-      if (viewMode === "grid") {
-        ScrollTrigger.batch(cards, {
-          start: "top 92%",
-          once: true,
-          onEnter: (batch) => {
-            gsap.from(batch, {
-              y: 10,
-              autoAlpha: 0,
-              duration: 0.35,
-              stagger: 0.08,
-              ease: "power1.out",
-              clearProps: "transform,opacity,visibility",
-            });
-          },
-        });
-      } else {
-        cards.forEach((card) => {
-          gsap.from(card, {
-            y: 14,
-            autoAlpha: 0,
-            duration: 0.4,
-            ease: "power1.out",
-            scrollTrigger: {
-              trigger: card,
-              start: "top 92%",
-              once: true,
-            },
-          });
-        });
-      }
-    },
-    { dependencies: [viewMode] },
-  );
-
   return (
     <section className="bg-stone-50 py-14 lg:py-20">
       <div className="container mx-auto max-w-7xl px-6 lg:px-14">
-        <div className="flex items-center justify-end gap-2 mb-8" dir="rtl">
+        <div className="flex items-center justify-end gap-2 mb-8">
           <button
             onClick={() => setViewMode("stack")}
-            className={`px-4 py-2 rounded-xl border text-sm font-bold transition-all ${
+            className={`px-4 py-2 rounded-md border text-sm font-bold transition-all flex items-center gap-2 ${
               viewMode === "stack"
                 ? "bg-red-700 text-white border-red-700 shadow-sm"
                 : "bg-white text-stone-600 border-stone-200 hover:border-stone-300 hover:bg-stone-50"
             }`}
           >
-            العرض الحالي
+            <List className="w-6 h-6" />
           </button>
           <button
             onClick={() => setViewMode("grid")}
-            className={`px-4 py-2 rounded-xl border text-sm font-bold transition-all ${
+            className={`px-4 py-2 rounded-md border text-sm font-bold transition-all flex items-center gap-2 ${
               viewMode === "grid"
                 ? "bg-red-700 text-white border-red-700 shadow-sm"
                 : "bg-white text-stone-600 border-stone-200 hover:border-stone-300 hover:bg-stone-50"
             }`}
           >
-            عرض شبكي
+            <Grid className="w-6 h-6" />
           </button>
         </div>
 
@@ -140,7 +98,7 @@ export default function ServicesBookstore() {
               )}
 
               <div
-                className={`cards w-full bg-white rounded-2xl overflow-hidden border border-stone-200 transition-all duration-300 ${
+                className={`w-full bg-white rounded-2xl overflow-hidden border border-stone-200 transition-all duration-300 ${
                   viewMode === "grid"
                     ? "flex flex-col h-full rounded-3xl border-stone-200/80 bg-white/95 shadow-[0_8px_24px_rgba(15,23,42,0.08)] hover:shadow-[0_14px_30px_rgba(15,23,42,0.12)]"
                     : "flex flex-col md:flex-row shadow-xl hover:shadow-2xl"
@@ -148,21 +106,21 @@ export default function ServicesBookstore() {
                 style={{ zIndex: index }}
                 dir="rtl"
               >
-              <div
-                className={`relative w-full shrink-0 ${
-                  viewMode === "grid"
-                    ? "h-48"
-                    : "md:w-2/5 h-72 md:h-auto md:min-h-[500px]"
-                }`}
-              >
-                <Image
-                  src={card.image}
-                  alt={card.title}
-                  fill
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent mix-blend-multiply" />
-              </div>
+                <div
+                  className={`relative w-full shrink-0 ${
+                    viewMode === "grid"
+                      ? "h-48"
+                      : "md:w-2/5 h-72 md:h-auto md:min-h-[500px]"
+                  }`}
+                >
+                  <Image
+                    src={card.image}
+                    alt={card.title}
+                    fill
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent mix-blend-multiply" />
+                </div>
 
                 <div
                   className={`p-8 flex flex-col w-full space-y-6 relative bg-white ${
@@ -170,49 +128,49 @@ export default function ServicesBookstore() {
                   }`}
                 >
                   <div className="flex-1">
-                  {card.date && (
-                    <span className="inline-block px-4 py-1.5 mb-5 text-sm font-bold text-red-800 bg-red-50/80 rounded-full border border-red-100 shadow-sm backdrop-blur-sm">
-                      {card.date}
-                    </span>
-                  )}
-                  <h2
-                    className={`font-extrabold text-stone-900 mb-5 leading-snug ${
-                      viewMode === "grid"
-                        ? "text-lg md:text-xl line-clamp-1"
-                        : "text-2xl md:text-3xl lg:text-4xl"
-                    }`}
-                    style={
-                      viewMode === "grid"
-                        ? {
-                            display: "-webkit-box",
-                            WebkitLineClamp: 1,
-                            WebkitBoxOrient: "vertical",
-                            overflow: "hidden",
-                          }
-                        : undefined
-                    }
-                  >
-                    {card.title}
-                  </h2>
-                  <p
-                    className={`text-stone-600 leading-relaxed max-w-2xl text-justify ${
-                      viewMode === "grid"
-                        ? "text-sm line-clamp-3"
-                        : "text-lg line-clamp-4 md:line-clamp-6"
-                    }`}
-                    style={
-                      viewMode === "grid"
-                        ? {
-                            display: "-webkit-box",
-                            WebkitLineClamp: 3,
-                            WebkitBoxOrient: "vertical",
-                            overflow: "hidden",
-                          }
-                        : undefined
-                    }
-                  >
-                    {card.description}
-                  </p>
+                    {card.date && (
+                      <span className="inline-block px-4 py-1.5 mb-5 text-sm font-bold text-red-800 bg-red-50/80 rounded-full border border-red-100 shadow-sm backdrop-blur-sm">
+                        {card.date}
+                      </span>
+                    )}
+                    <h2
+                      className={`font-extrabold text-stone-900 mb-5 leading-snug ${
+                        viewMode === "grid"
+                          ? "text-lg md:text-xl line-clamp-1"
+                          : "text-2xl md:text-3xl lg:text-4xl"
+                      }`}
+                      style={
+                        viewMode === "grid"
+                          ? {
+                              display: "-webkit-box",
+                              WebkitLineClamp: 1,
+                              WebkitBoxOrient: "vertical",
+                              overflow: "hidden",
+                            }
+                          : undefined
+                      }
+                    >
+                      {card.title}
+                    </h2>
+                    <p
+                      className={`text-stone-600 leading-relaxed max-w-2xl text-justify ${
+                        viewMode === "grid"
+                          ? "text-sm line-clamp-3"
+                          : "text-lg line-clamp-4 md:line-clamp-6"
+                      }`}
+                      style={
+                        viewMode === "grid"
+                          ? {
+                              display: "-webkit-box",
+                              WebkitLineClamp: 3,
+                              WebkitBoxOrient: "vertical",
+                              overflow: "hidden",
+                            }
+                          : undefined
+                      }
+                    >
+                      {card.description}
+                    </p>
                   </div>
 
                   {card.options && card.options.length > 0 && (

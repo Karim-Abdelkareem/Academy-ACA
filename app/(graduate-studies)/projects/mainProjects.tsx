@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import { ChevronRightIcon } from "lucide-react";
 
 function MainProject() {
   const path = usePathname();
@@ -40,7 +41,9 @@ function MainProject() {
           <Link href="/" className="hover:text-red-700 transition-colors">
             الرئيسية
           </Link>
-          <span className="text-stone-300 text-[8px]">◆</span>
+          <span className="text-stone-300 text-[8px]">
+            <ChevronRightIcon className="w-4 h-4" />
+          </span>
           <span className="text-stone-500">الدراسات</span>
         </motion.nav>
 
@@ -53,7 +56,7 @@ function MainProject() {
           {/* <p className="text-[11px] font-semibold tracking-[0.28em] text-red-700 uppercase mb-3">
             Graduate-Studies
           </p> */}
-          <h1 className="ap-display text-4xl lg:text-[4rem] font-bold text-stone-900 leading-[0.95] tracking-tight">
+          <h1 className="ap-display text-4xl lg:text-5xl font-bold text-stone-900 leading-[0.95] tracking-tight">
             الدراسات
           </h1>
           {/* <div className="mt-5 flex items-center gap-3">

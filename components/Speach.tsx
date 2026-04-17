@@ -6,7 +6,7 @@ import presedent from "@/public/presedent.jpeg";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown } from "lucide-react";
+import { BookOpen, Calendar, ChevronDown, Globe } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -24,9 +24,9 @@ const EXTRA_PARAGRAPHS = [
 ];
 
 const STATS = [
-  { value: "٢٠١٧", label: "سنة التأسيس", icon: "📅" },
-  { value: "+٥٠", label: "برنامج تدريبي", icon: "📚" },
-  { value: "دولي", label: "نطاق الأكاديمية", icon: "🌍" },
+  { value: "٢٠١٧", label: "سنة التأسيس", Icon: Calendar },
+  { value: "+٥٠", label: "برنامج تدريبي", Icon: BookOpen },
+  { value: "دولي", label: "نطاق الأكاديمية", Icon: Globe },
 ];
 
 export default function Speach() {
@@ -151,7 +151,7 @@ export default function Speach() {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full py-28 md:py-36 overflow-hidden bg-gradient-to-b from-white via-neutral-50/80 to-white"
+      className="relative w-full py-28 md:py-36 bg-gradient-to-b from-white via-neutral-50/80 to-white"
       dir="rtl"
       style={{
         fontFamily: "'Cairo', 'Noto Kufi Arabic', sans-serif",
@@ -214,11 +214,11 @@ export default function Speach() {
           ref={headerRef}
           className="flex flex-col items-center gap-3 text-center mb-20"
         >
-          <span className="speech-subtitle text-red-500 text-xs font-mono tracking-[0.4em] uppercase bg-red-50 px-5 py-2 rounded-full border border-red-100">
+          <span className="speech-subtitle text-red-500 text-xs font-mono tracking-[0.4em] uppercase">
             قيادة الأكاديمية
           </span>
-          <h2 className="speech-title text-neutral-900 text-4xl md:text-5xl lg:text-6xl font-black leading-none mt-2">
-            كلمة الرئيس<span className="text-red-600">.</span>
+          <h2 className="speech-title text-neutral-900 text-4xl md:text-5xl font-black leading-none mt-2">
+            كلمة الرئيس
           </h2>
           <div className="speech-decor-line w-16 h-1 bg-gradient-to-l from-[#d4af37] to-red-500 rounded-full mt-2 origin-center" />
         </div>
@@ -226,20 +226,23 @@ export default function Speach() {
         {/* ═══ Main Grid ═══ */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-14 items-start">
           {/* ─── Image Column ─── */}
-          <div ref={imageColRef} className="md:col-span-5 lg:col-span-4">
-            <div className="relative group">
+          <div
+            ref={imageColRef}
+            className="md:col-span-5 lg:col-span-4 self-start"
+          >
+            <div className="sticky top-20 z-10 w-full group">
               {/* Decorative frame border */}
               <div className="speech-frame-border absolute -inset-3 rounded-[2rem] border border-[#d4af37]/20 pointer-events-none" />
               <div className="absolute -inset-3 rounded-[2rem] bg-gradient-to-b from-[#d4af37]/5 to-transparent pointer-events-none" />
 
               {/* Image container */}
-              <div className="speech-image-wrap relative z-10 rounded-3xl overflow-hidden shadow-2xl shadow-neutral-200">
+              <div className="speech-image-wrap  z-10 rounded-3xl overflow-hidden shadow-2xl shadow-neutral-200 ">
                 <Image
                   src={presedent}
                   alt="رئيس الأكاديمية - لواء/ عمرو عادل"
                   width={500}
                   height={620}
-                  className="w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                  className="w-full object-cover transition-transform duration-700 group-hover:scale-[1.04] "
                 />
                 {/* Dark gradient overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
@@ -260,25 +263,13 @@ export default function Speach() {
                         </p>
                       </div>
                     </div>
-                    <div
-                      className="w-12 h-12 rounded-full bg-gradient-to-br from-[#d4af37] to-[#c9a227] flex items-center justify-center shadow-xl shadow-[#d4af37]/20 shrink-0
-                      group-hover:scale-110 transition-transform duration-300"
-                    >
-                      <svg
-                        className="w-5 h-5 text-white"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z" />
-                      </svg>
-                    </div>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* ─── Mini stats below image ─── */}
-            <div ref={statsRowRef} className="flex gap-3 mt-6">
+            {/* <div ref={statsRowRef} className="flex gap-3 mt-6">
               {STATS.map((s) => (
                 <div
                   key={s.label}
@@ -286,8 +277,8 @@ export default function Speach() {
                     bg-white border border-neutral-200 rounded-2xl py-4 px-2 text-center shadow-sm
                     hover:border-[#d4af37]/50 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300"
                 >
-                  <span className="text-lg mb-1 group-hover:scale-110 transition-transform duration-300">
-                    {s.icon}
+                  <span className="mb-1 flex justify-center text-neutral-600 group-hover:scale-110 transition-transform duration-300">
+                    <s.Icon className="size-5" strokeWidth={2} aria-hidden />
                   </span>
                   <span className="text-[#c9a227] font-black text-lg leading-none font-mono">
                     {s.value}
@@ -297,7 +288,7 @@ export default function Speach() {
                   </span>
                 </div>
               ))}
-            </div>
+            </div> */}
           </div>
 
           {/* ─── Text Column ─── */}

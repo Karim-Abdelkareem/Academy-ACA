@@ -1,3 +1,5 @@
+import { Mail, MapPin, Phone } from "lucide-react";
+
 export default function ContactUsPage() {
   return (
     <main className="bg-stone-50 py-14 lg:py-20" dir="rtl">
@@ -14,31 +16,55 @@ export default function ContactUsPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <section className="lg:col-span-1 space-y-4">
-            <div className="bg-white border border-stone-200 rounded-2xl p-5 shadow-sm">
-              <h2 className="font-bold text-stone-900 mb-2">العنوان</h2>
-              <p className="text-stone-600 leading-relaxed">
-                الأكاديمية الوطنية لمكافحة الفساد - هيئة الرقابة الإدارية
-              </p>
+            <div className="flex gap-4 rounded-2xl border border-stone-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md">
+              <MapPin
+                className="size-6 shrink-0 text-black"
+                strokeWidth={2}
+                aria-hidden
+              />
+              <div className="min-w-0 flex-1">
+                <h2 className="font-bold text-stone-900 mb-2">العنوان</h2>
+                <p className="text-stone-600 leading-relaxed">
+                  الأكاديمية الوطنية لمكافحة الفساد - هيئة الرقابة الإدارية
+                </p>
+              </div>
             </div>
 
-            <div className="bg-white border border-stone-200 rounded-2xl p-5 shadow-sm">
-              <h2 className="font-bold text-stone-900 mb-2">البريد الإلكتروني</h2>
-              <a
-                href="mailto:info@academy.aca.gov.eg"
-                className="text-red-700 hover:text-red-800 transition-colors"
-              >
-                info@academy.aca.gov.eg
-              </a>
+            <div className="flex gap-4 rounded-2xl border border-stone-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md">
+              <Mail
+                className="size-6 shrink-0 text-black"
+                strokeWidth={2}
+                aria-hidden
+              />
+              <div className="min-w-0 flex-1">
+                <h2 className="font-bold text-stone-900 mb-2">
+                  البريد الإلكتروني
+                </h2>
+                <a
+                  href="mailto:info@academy.aca.gov.eg"
+                  className="text-red-700 hover:text-red-800 transition-colors break-all"
+                >
+                  info@academy.aca.gov.eg
+                </a>
+              </div>
             </div>
 
-            <div className="bg-white border border-stone-200 rounded-2xl p-5 shadow-sm">
-              <h2 className="font-bold text-stone-900 mb-2">الهاتف</h2>
-              <a
-                href="tel:+202000000000"
-                className="text-red-700 hover:text-red-800 transition-colors"
-              >
-                +20 2 0000 0000
-              </a>
+            <div className="flex gap-4 rounded-2xl border border-stone-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md">
+              <Phone
+                className="size-6 shrink-0 text-black"
+                strokeWidth={2}
+                aria-hidden
+              />
+              <div className="min-w-0 flex-1">
+                <h2 className="font-bold text-stone-900 mb-2">الهاتف</h2>
+                <a
+                  href="tel:+202000000000"
+                  className="text-red-700 hover:text-red-800 transition-colors tabular-nums"
+                  dir="ltr"
+                >
+                  +20 2 0000 0000
+                </a>
+              </div>
             </div>
           </section>
 

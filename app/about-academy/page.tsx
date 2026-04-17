@@ -81,10 +81,8 @@ export default function AboutAcademyPage() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Tajawal:wght@300;400;500;700&display=swap');
-
         .ap-root {
-          font-family: 'Tajawal', sans-serif;
+          font-family: var(--font-sans);
           direction: rtl;
           min-height: 100vh;
           background-color: #faf9f7;
@@ -99,8 +97,8 @@ export default function AboutAcademyPage() {
           border-bottom: 1px solid #e7e5e4;
         }
 
-        /* Cormorant for display headings */
-        .ap-display { font-family: 'Cormorant Garamond', serif; }
+        /* Headings — Cairo (same as app layout / globals) */
+        .ap-display { font-family: var(--font-heading); }
 
         /* Animated tab underline */
         .ap-tab-line {
@@ -155,12 +153,11 @@ export default function AboutAcademyPage() {
           height: auto !important;
           border-radius: 10px;
           object-fit: cover;
-          aspect-ratio: 4/3;
         }
 
         /* Typography */
         .ap-rich h1, .ap-rich h2, .ap-rich h3, .ap-rich h4 {
-          font-family: 'Cormorant Garamond', serif;
+          font-family: var(--font-heading);
           color: #1c1917;
           font-weight: 700;
           line-height: 1.2;
@@ -200,7 +197,7 @@ export default function AboutAcademyPage() {
       <div className="ap-root">
         {/* ──────────── HEADER ──────────── */}
         <div className="ap-header-band ">
-          <div className="max-w-screen-xl mx-auto px-6 lg:px-14">
+          <div className="max-w-7xl mx-auto px-6 lg:px-14">
             {/* Breadcrumb */}
             <motion.nav
               className="flex items-center gap-2 pt-6 text-[11px] tracking-widest text-stone-400 uppercase"
@@ -225,7 +222,7 @@ export default function AboutAcademyPage() {
               {/* <p className="text-[11px] font-semibold tracking-[0.28em] text-red-700 uppercase mb-3">
                 About the Academy
               </p> */}
-              <h1 className="ap-display text-4xl lg:text-[4rem] font-bold text-stone-900 leading-[0.95] tracking-tight">
+              <h1 className="ap-display text-4xl lg:text-5xl font-bold text-stone-900 leading-[0.95] tracking-tight">
                 عن الأكاديمية
               </h1>
               {/* <div className="mt-5 flex items-center gap-3">
@@ -269,7 +266,7 @@ export default function AboutAcademyPage() {
         </div>
 
         {/* ──────────── BODY ──────────── */}
-        <div className="max-w-screen-xl mx-auto px-6 lg:px-14 py-12 lg:py-16">
+        <div className="max-w-7xl mx-auto px-6 lg:px-14 py-12 lg:py-16">
           <div
             className="ap-layout"
             style={{ display: "grid", gridTemplateColumns: "256px 1fr" }}

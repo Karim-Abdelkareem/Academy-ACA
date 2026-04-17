@@ -58,8 +58,8 @@ export default function LifeInsideAcademy() {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <h2 className="text-neutral-900 text-4xl md:text-5xl font-black leading-none">
-                الحياة داخل الأكاديمية<span className="text-red-600">.</span>
+              <h2 className="text-neutral-900 text-4xl font-black leading-none">
+                الحياة داخل الأكاديمية
               </h2>
             </motion.div>
           </div>

@@ -21,7 +21,33 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Book, BriefcaseBusiness, University } from "lucide-react";
+import {
+  Award,
+  BookOpen,
+  Check,
+  ClipboardList,
+  FlaskConical,
+  FolderTree,
+  Globe,
+  GraduationCap,
+  Handshake,
+  Landmark,
+  Languages,
+  Laptop,
+  Lightbulb,
+  Linkedin,
+  Mail,
+  MapPin,
+  Mic,
+  Newspaper,
+  Phone,
+  ScrollText,
+  Telescope,
+  Twitter,
+  Users,
+} from "lucide-react";
+
+const menuIconClass = "size-4 shrink-0";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -42,16 +68,58 @@ const NAV_ITEMS = [
         {
           heading: "التعريف",
           links: [
-            { label: "نشأة الأكاديمية", href: "/about/origin", icon: "🏛" },
-            { label: "الرؤية والرسالة", href: "/about/vision", icon: "🔭" },
-            { label: "الهيكل التنظيمي", href: "/about/structure", icon: "🗂" },
+            {
+              label: "نشأة الأكاديمية",
+              href: "/about/origin",
+              icon: (
+                <Landmark
+                  className={menuIconClass}
+                  strokeWidth={2}
+                  aria-hidden
+                />
+              ),
+            },
+            {
+              label: "الرؤية والرسالة",
+              href: "/about/vision",
+              icon: (
+                <Telescope
+                  className={menuIconClass}
+                  strokeWidth={2}
+                  aria-hidden
+                />
+              ),
+            },
+            {
+              label: "الهيكل التنظيمي",
+              href: "/about/structure",
+              icon: (
+                <FolderTree
+                  className={menuIconClass}
+                  strokeWidth={2}
+                  aria-hidden
+                />
+              ),
+            },
           ],
         },
         {
           heading: "القيادة",
           links: [
-            { label: "كلمة الرئيس", href: "/about/speech", icon: "🎙" },
-            { label: "مجلس الإدارة", href: "/about/board", icon: "👥" },
+            {
+              label: "كلمة الرئيس",
+              href: "/about/speech",
+              icon: (
+                <Mic className={menuIconClass} strokeWidth={2} aria-hidden />
+              ),
+            },
+            {
+              label: "مجلس الإدارة",
+              href: "/about/board",
+              icon: (
+                <Users className={menuIconClass} strokeWidth={2} aria-hidden />
+              ),
+            },
           ],
         },
       ],
@@ -72,26 +140,50 @@ const NAV_ITEMS = [
         {
           heading: "الدرجات العلمية",
           links: [
-            // { label: "دبلوم الحوكمة", href: "/studies/diploma", icon: "🎓" },
+            // { label: "دبلوم الحوكمة", href: "/studies/diploma", icon: <GraduationCap className={menuIconClass} strokeWidth={2} aria-hidden /> },
             {
               label: "الدراسات العليا",
               href: "/projects/diploma",
-              icon: "📘",
+              icon: (
+                <BookOpen
+                  className={menuIconClass}
+                  strokeWidth={2}
+                  aria-hidden
+                />
+              ),
               nested: [
                 {
                   label: "الدبلومة ",
                   href: "/projects/diploma",
-                  icon: <Book />,
+                  icon: (
+                    <BookOpen
+                      className={menuIconClass}
+                      strokeWidth={2}
+                      aria-hidden
+                    />
+                  ),
                 },
                 {
                   label: "الماجستير",
                   href: "/projects/master",
-                  icon: <University />,
+                  icon: (
+                    <GraduationCap
+                      className={menuIconClass}
+                      strokeWidth={2}
+                      aria-hidden
+                    />
+                  ),
                 },
                 {
                   label: "الدكتوراه",
                   href: "/projects/doctorate",
-                  icon: <BriefcaseBusiness />,
+                  icon: (
+                    <ScrollText
+                      className={menuIconClass}
+                      strokeWidth={2}
+                      aria-hidden
+                    />
+                  ),
                 },
               ],
             },
@@ -103,14 +195,28 @@ const NAV_ITEMS = [
             {
               label: "البرامج التدريبية",
               href: "/studies/training",
-              icon: "📋",
+              icon: (
+                <ClipboardList
+                  className={menuIconClass}
+                  strokeWidth={2}
+                  aria-hidden
+                />
+              ),
             },
             {
               label: "التدريب الإلكتروني",
               href: "/studies/elearning",
-              icon: "💻",
+              icon: (
+                <Laptop className={menuIconClass} strokeWidth={2} aria-hidden />
+              ),
             },
-            { label: "الشهادات المهنية", href: "/studies/certs", icon: "🏅" },
+            {
+              label: "الشهادات المهنية",
+              href: "/studies/certs",
+              icon: (
+                <Award className={menuIconClass} strokeWidth={2} aria-hidden />
+              ),
+            },
           ],
         },
       ],
@@ -131,12 +237,28 @@ const NAV_ITEMS = [
         {
           heading: "الخدمات الرئيسية",
           links: [
-            // { label: "الاستشارات", href: "/services/about", icon: "💡" },
-            { label: "البحث العلمي", href: "/services/about", icon: "🔬" },
+            // { label: "الاستشارات", href: "/services/about", icon: <Lightbulb className={menuIconClass} strokeWidth={2} aria-hidden /> },
+            {
+              label: "البحث العلمي",
+              href: "/services/about",
+              icon: (
+                <FlaskConical
+                  className={menuIconClass}
+                  strokeWidth={2}
+                  aria-hidden
+                />
+              ),
+            },
             {
               label: "النشر والإصدارات",
               href: "/services/publishing",
-              icon: "📰",
+              icon: (
+                <Newspaper
+                  className={menuIconClass}
+                  strokeWidth={2}
+                  aria-hidden
+                />
+              ),
             },
           ],
         },
@@ -146,9 +268,21 @@ const NAV_ITEMS = [
             {
               label: "الشراكات الدولية",
               href: "/services/international",
-              icon: "🌍",
+              icon: (
+                <Globe className={menuIconClass} strokeWidth={2} aria-hidden />
+              ),
             },
-            { label: "الاتفاقيات", href: "/services/agreements", icon: "🤝" },
+            {
+              label: "الاتفاقيات",
+              href: "/services/agreements",
+              icon: (
+                <Handshake
+                  className={menuIconClass}
+                  strokeWidth={2}
+                  aria-hidden
+                />
+              ),
+            },
           ],
         },
       ],
@@ -175,16 +309,27 @@ const NAV_ITEMS = [
         {
           heading: "وسائل التواصل",
           links: [
-            { label: "البريد الإلكتروني", href: "/contact/email", icon: "📧" },
-            { label: "الهاتف", href: "/contact/phone", icon: "📞" },
-            { label: "العنوان", href: "/contact/address", icon: "📍" },
-          ],
-        },
-        {
-          heading: "التواصل الاجتماعي",
-          links: [
-            { label: "تويتر / X", href: "https://twitter.com", icon: "𝕏" },
-            { label: "لينكدإن", href: "https://linkedin.com", icon: "in" },
+            {
+              label: "البريد الإلكتروني",
+              href: "/contact/email",
+              icon: (
+                <Mail className={menuIconClass} strokeWidth={2} aria-hidden />
+              ),
+            },
+            {
+              label: "الهاتف",
+              href: "/contact/phone",
+              icon: (
+                <Phone className={menuIconClass} strokeWidth={2} aria-hidden />
+              ),
+            },
+            {
+              label: "العنوان",
+              href: "/contact/address",
+              icon: (
+                <MapPin className={menuIconClass} strokeWidth={2} aria-hidden />
+              ),
+            },
           ],
         },
       ],
@@ -395,32 +540,37 @@ export default function MegaMenu() {
                             {
                               code: "ar" as Language,
                               label: "العربية",
-                              flag: "🇪🇬",
                             },
                             {
                               code: "en" as Language,
                               label: "English",
-                              flag: "🇬🇧",
                             },
                             {
                               code: "fr" as Language,
                               label: "Français",
-                              flag: "🇫🇷",
                             },
-                          ] as { code: Language; label: string; flag: string }[]
-                        ).map(({ code, label, flag }) => (
+                          ] as { code: Language; label: string }[]
+                        ).map(({ code, label }) => (
                           <DialogClose asChild key={code}>
                             <button
                               type="button"
                               onClick={() => setLanguage(code)}
                               className={`flex w-full items-center gap-3 rounded-xl border px-4 py-3 text-sm font-medium transition-colors hover:bg-neutral-50 ${language === code ? "border-[#d4af37] bg-amber-50" : "border-neutral-200"}`}
                             >
-                              <span className="text-xl">{flag}</span>
+                              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-neutral-100 text-neutral-600">
+                                <Languages
+                                  className="size-5"
+                                  strokeWidth={2}
+                                  aria-hidden
+                                />
+                              </span>
                               {label}
                               {language === code && (
-                                <span className="mr-auto text-[#d4af37] text-xs font-mono">
-                                  ✓
-                                </span>
+                                <Check
+                                  className="mr-auto size-4 text-[#d4af37]"
+                                  strokeWidth={2}
+                                  aria-hidden
+                                />
                               )}
                             </button>
                           </DialogClose>

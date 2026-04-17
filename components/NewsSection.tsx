@@ -332,24 +332,19 @@ export default function NewsSection() {
       <div className="relative z-10 w-[90%] max-w-7xl mx-auto">
         {/* Section header */}
         <motion.div
-          className="flex items-end justify-between mb-12"
+          className="flex flex-col items-center mb-12"
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col items-center gap-2">
             <span className="text-red-500 text-xs font-mono tracking-[0.3em] uppercase">
               أحدث المستجدات
             </span>
             <h2 className="text-neutral-900 text-4xl md:text-5xl font-black leading-none">
               الأخبار
-              <span className="text-red-600">.</span>
             </h2>
-          </div>
-          <div className="hidden md:flex items-center gap-3 pb-2">
-            <div className="h-px w-24 bg-gradient-to-l from-red-500 to-transparent" />
-            <div className="w-2 h-2 rounded-full bg-red-500" />
           </div>
         </motion.div>
 

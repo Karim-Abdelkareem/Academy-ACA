@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useGSAP } from "@gsap/react";
 import { useRef } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Clock, Dot, GraduationCap, Lightbulb } from "lucide-react";
 function doctorate() {
   const cardsContainerRef = useRef<HTMLDivElement>(null);
   const infoRef = useRef<HTMLDivElement>(null);
@@ -79,12 +80,12 @@ function doctorate() {
 
       <div
         ref={cardsContainerRef}
-        className="flex flex-col items-center overflow-hidden p-5 mx-auto max-w-6xl"
+        className="flex flex-col items-center overflow-hidden p-5 mx-auto w-full"
       >
         {diploma.programSections.map((section, idx) => (
           <div
             key={idx}
-            className="stack-card w-full bg-white border border-stone-100 p-8 lg:p-12 rounded-[2.5rem] shadow-[0_15px_40px_rgba(0,0,0,0.06)] mb-[6vh] will-change-transform transform-gpu relative group"
+            className="stack-card w-full bg-white p-8 lg:p-12 rounded-[2.5rem]  mb-[6vh] will-change-transform transform-gpu relative group"
             style={{ zIndex: idx }}
           >
             <div className="absolute top-10 left-10 text-stone-100 text-7xl font-black group-hover:text-[#d4af37]/10 transition-colors select-none">
@@ -92,7 +93,7 @@ function doctorate() {
             </div>
 
             <div className="flex items-center gap-4 mb-10 relative z-10">
-              <div className="w-2 h-10 bg-[#d4af37] rounded-full"></div>
+              <div className="w-0.5 h-10 bg-[#d4af37] rounded-full"></div>
               <div>
                 <h2 className="text-3xl font-bold text-stone-800 tracking-tight">
                   {section.titleAr}
@@ -101,9 +102,13 @@ function doctorate() {
             </div>
 
             {section.warning && (
-              <div className="bg-amber-50 border-r-8 border-amber-500 p-6 rounded-2xl mb-10 flex items-start gap-5 shadow-sm">
-                <span className="text-3xl mt-1">💡</span>
-                <p className="text-amber-900 font-bold text-lg leading-relaxed">
+              <div className="bg-amber-50 border-r-4 border-amber-500 p-6 rounded-xl mb-10 flex items-start gap-5 shadow-sm">
+                <Lightbulb
+                  className="mt-1 size-8 shrink-0 text-amber-600"
+                  strokeWidth={2}
+                  aria-hidden
+                />
+                <p className="text-amber-900 font-medium text-lg leading-relaxed">
                   {section.warning}
                 </p>
               </div>
@@ -111,14 +116,9 @@ function doctorate() {
 
             <div className="text-stone-700 text-lg leading-relaxed relative z-10">
               {typeof section.content === "string" && (
-                <div className="relative p-8 bg-stone-50 rounded-[2rem] border-r-8 border-stone-200">
-                  <span className="absolute top-4 left-6 text-6xl text-stone-200 font-serif leading-none">
-                    “
-                  </span>
-                  <p className="text-xl text-stone-700 font-bold leading-loose relative z-10 italic">
-                    {section.content}
-                  </p>
-                </div>
+                <p className="text-xl text-stone-700 font-medium leading-loose relative z-10">
+                  {section.content}
+                </p>
               )}
 
               {Array.isArray(section.content) && (
@@ -126,10 +126,10 @@ function doctorate() {
                   {section.content.map((item, i) => (
                     <div
                       key={i}
-                      className="flex items-start gap-4 bg-white p-6 rounded-2xl border border-stone-100 shadow-sm hover:border-[#d4af37] hover:bg-stone-50 transition-all duration-300"
+                      className="flex  gap-4 bg-white p-6 rounded-2xl border border-stone-100 shadow-sm hover:border-[#d4af37] hover:bg-stone-50 transition-all duration-300"
                     >
-                      <div className="min-w-[12px] h-[12px] rounded-full bg-[#d4af37] mt-2.5 shadow-[0_0_10px_rgba(212,175,55,0.5)]"></div>
-                      <span className="font-bold text-stone-700 text-[1.05rem] leading-snug">
+                      <div className="w-2 h-2 bg-[#d4af37] mt-2 shrink-0"></div>
+                      <span className="font-bold text-stone-700 text-[1.05rem]">
                         {item}
                       </span>
                     </div>
@@ -143,7 +143,7 @@ function doctorate() {
                   <div className="space-y-12">
                     {/* تفاصيل الساعات والمدة كـ Stats بارزة */}
                     <div className="flex flex-wrap gap-6 mb-10">
-                      <div className="flex-1 min-w-[200px] bg-stone-900 text-white p-6 rounded-[2rem] flex items-center justify-between shadow-xl">
+                      <div className="flex-1 min-w-[200px] border border-stone-200 text-white hover:border-[#d4af37] transition-all duration-300 p-6 rounded-[2rem] flex items-center justify-between ">
                         <div>
                           <p className="text-stone-400 text-sm font-bold mb-1">
                             مدة الدراسة
@@ -152,9 +152,13 @@ function doctorate() {
                             {section.content.duration}
                           </p>
                         </div>
-                        <span className="text-4xl">🎓</span>
+                        <GraduationCap
+                          className="size-10 shrink-0 text-[#d4af37]"
+                          strokeWidth={2}
+                          aria-hidden
+                        />
                       </div>
-                      <div className="flex-1 min-w-[200px] bg-[#d4af37] text-white p-6 rounded-[2rem] flex items-center justify-between shadow-xl">
+                      <div className="flex-1 min-w-[200px] border border-stone-200 bg-[#d4af37] text-white p-6 rounded-[2rem] flex items-center justify-between ">
                         <div>
                           <p className="text-white/80 text-sm font-bold mb-1">
                             الساعات المعتمدة
@@ -163,7 +167,11 @@ function doctorate() {
                             {section.content.credits} ساعة
                           </p>
                         </div>
-                        <span className="text-4xl">⏱️</span>
+                        <Clock
+                          className="size-10 shrink-0 opacity-95"
+                          strokeWidth={2}
+                          aria-hidden
+                        />
                       </div>
                     </div>
 
@@ -171,10 +179,10 @@ function doctorate() {
                     {section.content.courses?.coreCourses && (
                       <div className="space-y-6">
                         <h4 className="text-2xl font-black text-stone-800 flex items-center gap-3">
-                          <span className="w-2 h-8 bg-stone-900 rounded-full"></span>
+                          <span className="w-1 h-8 bg-stone-900 rounded-full"></span>
                           المقررات الإجبارية
                         </h4>
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div className="grid grid-cols-1  gap-6">
                           {Object.entries(
                             section.content.courses.coreCourses,
                           ).map(([key, courses]: [string, any]) => (
@@ -188,7 +196,11 @@ function doctorate() {
                                     key={i}
                                     className="flex items-center gap-4 bg-white p-4 rounded-xl border border-stone-100 font-bold text-stone-700 shadow-sm"
                                   >
-                                    <span className="text-[#d4af37]">●</span>{" "}
+                                    <Dot
+                                      className="size-4 shrink-0 text-[#d4af37]"
+                                      strokeWidth={0}
+                                      aria-hidden
+                                    />{" "}
                                     {course}
                                   </li>
                                 ))}

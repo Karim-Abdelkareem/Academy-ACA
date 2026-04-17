@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useGSAP } from "@gsap/react";
 import { useRef } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { CalendarDays, Clock } from "lucide-react";
 
 function masters() {
   const cardsContainerRef = useRef<HTMLDivElement>(null);
@@ -90,7 +91,7 @@ function masters() {
             </div>
 
             <div className="flex items-center gap-4 mb-10 relative z-10">
-              <div className="w-2 h-10 bg-[#d4af37] rounded-full"></div>
+              <div className="w-0.5 h-10 bg-[#d4af37] rounded-full"></div>
               <h2 className="text-3xl font-bold text-stone-800 tracking-tight">
                 {section.titleAr}
               </h2>
@@ -98,7 +99,7 @@ function masters() {
 
             <div className="text-stone-700 text-lg leading-relaxed relative z-10">
               {typeof section.content === "string" && (
-                <p className="text-xl text-stone-600 leading-loose font-medium bg-stone-50/50 p-6 rounded-2xl border-r-4 border-stone-200">
+                <p className="text-xl text-stone-600 leading-loose font-medium bg-stone-50/50 p-6 rounded-2xl ">
                   {section.content}
                 </p>
               )}
@@ -110,7 +111,7 @@ function masters() {
                       key={i}
                       className="flex items-center gap-4 bg-white p-5 rounded-2xl border border-stone-100 shadow-sm hover:shadow-md hover:border-[#d4af37]/30 transition-all group/item"
                     >
-                      <span className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-xl bg-stone-50 text-[#d4af37] group-hover/item:bg-[#d4af37] group-hover/item:text-white transition-colors font-bold">
+                      <span className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-xl bg-stone-100 text-[#d4af37] group-hover/item:bg-[#d4af37] group-hover/item:text-white transition-colors font-bold">
                         {i + 1}
                       </span>
                       <span className="font-semibold text-stone-700">
@@ -124,31 +125,59 @@ function masters() {
               {typeof section.content === "object" &&
                 !Array.isArray(section.content) &&
                 section.content !== null && (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
                     {section.content.duration && (
-                      <div className="bg-stone-900 text-white p-8 rounded-[2rem] shadow-xl transform hover:-translate-y-1 transition-transform">
-                        <div className="flex items-center gap-4 mb-4">
-                          <h4 className="text-stone-400 font-bold uppercase tracking-wider text-sm">
-                            مدة الدراسة
-                          </h4>
+                      <div className="group/stat relative overflow-hidden rounded-2xl border border-stone-200 bg-white p-6 transition-all duration-300 hover:border-[#d4af37]/60 ">
+                        <span
+                          aria-hidden
+                          className="absolute inset-y-0 right-0 w-1 bg-linear-to-b from-[#d4af37] to-[#c9a227]"
+                        />
+                        <div className="flex items-center gap-4">
+                          <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-[#d4af37]/15 text-[#c9a227] transition-transform duration-300 group-hover/stat:scale-110">
+                            <CalendarDays
+                              className="size-6"
+                              strokeWidth={2}
+                              aria-hidden
+                            />
+                          </span>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-xs font-semibold tracking-wider text-stone-400 uppercase">
+                              مدة الدراسة
+                            </p>
+                            <p className="text-xl font-bold text-stone-900 leading-tight mt-0.5">
+                              {section.content.duration}
+                            </p>
+                          </div>
                         </div>
-                        <p className="text-2xl font-bold text-[#d4af37]">
-                          {section.content.duration}
-                        </p>
                       </div>
                     )}
 
                     {section.content.credits && (
-                      <div className="bg-[#d4af37] text-white p-8 rounded-[2rem] shadow-xl transform hover:-translate-y-1 transition-transform">
-                        <div className="flex items-center gap-4 mb-4">
-                          <h4 className="text-white/70 font-bold uppercase tracking-wider text-sm">
-                            الساعات المعتمدة
-                          </h4>
+                      <div className="group/stat relative overflow-hidden rounded-2xl border border-stone-200 bg-stone-900 text-white p-6 transition-all duration-300 ">
+                        <span
+                          aria-hidden
+                          className="absolute inset-y-0 right-0 w-1 bg-linear-to-b from-[#d4af37] to-[#c9a227]"
+                        />
+                        <div className="flex items-center gap-4">
+                          <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-white/10 text-[#d4af37] transition-transform duration-300 group-hover/stat:scale-110">
+                            <Clock
+                              className="size-6"
+                              strokeWidth={2}
+                              aria-hidden
+                            />
+                          </span>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-xs font-semibold tracking-wider text-stone-400 uppercase">
+                              الساعات المعتمدة
+                            </p>
+                            <p className="text-xl lg:text-2xl font-black text-[#d4af37] leading-tight mt-0.5">
+                              {section.content.credits}{" "}
+                              <span className="text-base font-bold text-white/80">
+                                ساعة
+                              </span>
+                            </p>
+                          </div>
                         </div>
-                        <p className="text-4xl font-black">
-                          {section.content.credits}{" "}
-                          <span className="text-xl font-normal">ساعة</span>
-                        </p>
                       </div>
                     )}
                   </div>

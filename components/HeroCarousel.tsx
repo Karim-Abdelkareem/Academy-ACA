@@ -219,7 +219,7 @@ export default function HeroCarousel() {
       </button>
 
       {/* ───── Thumbs Gallery ───── */}
-      <div className="relative mt-[-60px] md:mt-[-70px] z-20 px-4 md:px-10 pb-2">
+      <div className="absolute bottom-0 right-0 mt-[-60px] md:mt-[-100px] max-w-4xl z-20 px-4 md:px-8 pb-2">
         <div className="backdrop-blur-xl bg-black/30 rounded-xl md:rounded-2xl p-2 md:p-3 border border-white/10 shadow-2xl">
           <Swiper
             modules={[Thumbs]}
