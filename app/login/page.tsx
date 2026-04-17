@@ -46,12 +46,12 @@ export default function LoginPage() {
   );
 
   return (
-    <main className="min-h-screen bg-white mx-10">
+    <main className="min-h-screen bg-white w-full">
       <div
         ref={containerRef}
-        className="mx-auto my-10 flex min-h-screen max-w-6xl flex-col overflow-hidden rounded-3xl bg-white shadow-xl lg:flex-row-reverse"
+        className=" w-full  flex min-h-screen  flex-col overflow-hidden  lg:flex-row-reverse"
       >
-        <div className="auth-card flex w-full flex-1 flex-col items-center justify-between px-6 py-6 lg:w-1/2 lg:px-10">
+        <div className="auth-card my-20 flex lg:w-[50%] sm:p-0 p-2 w-full flex-1 flex-col items-center justify-between py-6  lg:px-10">
           <div className="w-full max-w-md space-y-8 text-right">
             <Image
               className="mx-auto"
@@ -69,7 +69,7 @@ export default function LoginPage() {
               </div>
             </div>
 
-            <form className="space-y-10 rounded-3xl border border-gray-100 bg-white/80 p-6 shadow-sm backdrop-blur">
+            <form className="space-y-10  bg-white/80 p-6  backdrop-blur">
               <div className="auth-form-element space-y-1">
                 <label
                   htmlFor="username"
@@ -139,7 +139,7 @@ export default function LoginPage() {
             </form>
           </div>
         </div>
-        <div className="auth-image hidden lg:block relative h-64 w-full bg-black lg:h-auto lg:w-1/2">
+        <div className="lg:w-[50%] w-full auth-image hidden lg:block relative h-64  bg-black lg:h-auto ">
           <Image
             src="/carousel/c1.jpeg"
             alt="مبنى الأكاديمية الوطنية لمكافحة الفساد"
@@ -147,15 +147,6 @@ export default function LoginPage() {
             priority
             className="object-cover"
           />
-
-          <div className="absolute left-6 top-6 flex items-center gap-3 rounded-full  px-4 py-2 ">
-            <Image
-              src="/logo.png"
-              alt="شعار الأكاديمية الوطنية لمكافحة الفساد"
-              width={150}
-              height={150}
-            />
-          </div>
         </div>
       </div>
     </main>

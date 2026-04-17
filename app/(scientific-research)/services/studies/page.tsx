@@ -6,7 +6,6 @@ import Logo2 from "@/public/work1.jpg";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { SplitText } from "gsap/SplitText";
 import {
   TbArrowBigDownLinesFilled,
   TbArrowBigLeftLinesFilled,
@@ -23,66 +22,21 @@ export default function ServicesStudies() {
 
   useGSAP(
     () => {
-      gsap.registerPlugin(ScrollTrigger, SplitText);
+      gsap.registerPlugin(ScrollTrigger);
+      const cards = gsap.utils.toArray(".studyCard") as HTMLElement[];
 
-      const slides = gsap.utils.toArray(".studyCard") as HTMLElement[];
-      const mainContainer = document.querySelector(
-        ".main-container",
-      ) as HTMLElement;
-
-      const Hs = gsap.to(slides, {
-        xPercent: -100 * (slides.length - 1),
-        ease: "none",
-        scrollTrigger: {
-          trigger: ".main-container",
-          pin: true,
-          scrub: 1,
-          snap: { snapTo: 1 / (slides.length - 1), delay: 1 },
-          start: "41% center",
-          anticipatePin: 1,
-          end: () => "+=" + mainContainer.offsetWidth * (slides.length - 1),
-        },
-      });
-
-      slides.forEach((slide, i) => {
-        const textNodes = slide.querySelectorAll(".split-text");
-        const split = new SplitText(textNodes, {
-          type: "lines,words",
-          mask: "words",
+      cards.forEach((card) => {
+        gsap.from(card, {
+          y: 24,
+          autoAlpha: 0,
+          duration: 0.6,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: card,
+            start: "top 85%",
+            toggleActions: "play none none reverse",
+          },
         });
-        const images = slide.querySelectorAll(".studyImg");
-        gsap.set(split.lines, { overflow: "hidden" });
-        gsap.set(split.words, { y: "20%", opacity: 0 });
-        gsap
-          .timeline({
-            defaults: {
-              duration: 1,
-              stagger: { amount: 1 },
-              ease: "power2.out",
-            },
-            scrollTrigger: {
-              trigger: slide,
-              containerAnimation: Hs,
-              start: "41% center",
-              toggleActions: "play none none reverse",
-            },
-          })
-          .fromTo(
-            images,
-            { clipPath: "circle(30% at 50% 50%)" },
-            {
-              clipPath: "circle(100% at 50% 50%)",
-            },
-            "<",
-          )
-          .to(
-            split.words,
-            {
-              y: "0%",
-              opacity: 1,
-            },
-            "<50%",
-          );
       });
     },
     { scope: containerRef },
@@ -109,20 +63,20 @@ export default function ServicesStudies() {
 
   return (
     <section ref={containerRef} className="py-20 bg-stone-50 overflow-hidden">
-      <div className="main-container max-w-7xl mx-auto h-[80vh] flex overflow-hidden border-2  shadow-2xl bg-stone-50 rounded-2xl">
-        <div className="studyCard min-w-full h-full flex items-stretch">
+      <div className="max-w-7xl mx-auto px-6 lg:px-14 space-y-8">
+        <div className="studyCard w-full flex items-stretch bg-white rounded-2xl border border-stone-200 shadow-xl overflow-hidden">
           <div
-            className="grid grid-cols-1 lg:grid-cols-2 w-full h-full"
+            className="grid grid-cols-1 lg:grid-cols-2 w-full"
             dir="rtl"
           >
-            <div className="p-10 lg:p-16 space-y-6 overflow-y-auto custom-scrollbar flex flex-col">
-              <span className="text-red-700 font-bold tracking-widest uppercase split-text">
+            <div className="p-10 lg:p-12 space-y-6 flex flex-col">
+              {/* <span className="text-red-700 font-bold tracking-widest uppercase">
                 Scientific Studies
-              </span>
-              <h2 className="text-4xl lg:text-5xl font-black text-stone-900 leading-tight split-text">
+              </span> */}
+              <h2 className="text-4xl lg:text-5xl font-black text-stone-900 leading-tight">
                 دراسات مركز البحوث والدراسات
               </h2>
-              <p className="text-stone-600 text-lg leading-loose split-text">
+              <p className="text-stone-600 text-lg leading-loose">
                 يمثل إعداد البحوث والدراسات المتخصصة في مجالات مكافحة الفساد
                 والشفافية والمحاسبة هدفاً أساسياً للمركز.
               </p>
@@ -139,9 +93,7 @@ export default function ServicesStudies() {
                   >
                     <TbArrowBigLeftLinesFilled />
                   </span>
-                  <span className="split-text text-stone-500">
-                    بيان تلك الدراسات
-                  </span>
+                  <span className="text-stone-500">بيان تلك الدراسات</span>
                 </button>
                 <div
                   id="card1-list"
@@ -153,7 +105,7 @@ export default function ServicesStudies() {
                     {DATA_CARD_ONE.map((item, i) => (
                       <li
                         key={i}
-                        className="bg-white p-4 rounded-lg shadow-sm border-r-4 border-red-700 text-stone-700 will-change-transform split-text"
+                        className="bg-white p-4 rounded-lg shadow-sm border-r-4 border-red-700 text-stone-700 will-change-transform"
                       >
                         {item}
                       </li>
@@ -176,18 +128,16 @@ export default function ServicesStudies() {
           </div>
         </div>
 
-        <div className="studyCard min-w-full h-full flex items-stretch">
+        <div className="studyCard w-full flex items-stretch bg-white rounded-2xl border border-stone-200 shadow-xl overflow-hidden">
           <div
-            className="grid grid-cols-1 lg:grid-cols-2 w-full h-full"
+            className="grid grid-cols-1 lg:grid-cols-2 w-full"
             dir="rtl"
           >
-            <div className="p-10 lg:p-16 space-y-6 overflow-y-auto custom-scrollbar">
-              <span className="text-red-700 font-bold tracking-widest uppercase split-text">
+            <div className="p-10 lg:p-12 space-y-6">
+              {/* <span className="text-red-700 font-bold tracking-widest uppercase">
                 Categorized Research
-              </span>
-              <h2 className="text-4xl font-black text-stone-900 split-text">
-                دراسات اخري
-              </h2>
+              </span> */}
+              <h2 className="text-4xl font-black text-stone-900">دراسات اخري</h2>
 
               <div className="space-y-3 pt-4">
                 {DATA_CARD_TWO.map((cat, idx) => (
@@ -198,7 +148,7 @@ export default function ServicesStudies() {
                       }
                       className="w-full flex justify-between items-center py-4 text-right font-bold text-lg text-stone-800 hover:text-red-700 transition-colors"
                     >
-                      <span className="split-text">{cat.category}</span>
+                      <span>{cat.category}</span>
                       <span
                         className={`text-sm transition-transform duration-300 ${
                           card2OpenIdx === idx ? "rotate-180" : ""
@@ -217,7 +167,7 @@ export default function ServicesStudies() {
                         {cat.items.map((item, i) => (
                           <li
                             key={i}
-                            className="text-sm text-stone-600 border-r-2 border-red-300 pr-3 leading-relaxed will-change-transform split-text"
+                            className="text-sm text-stone-600 border-r-2 border-red-300 pr-3 leading-relaxed will-change-transform"
                           >
                             {item}
                           </li>

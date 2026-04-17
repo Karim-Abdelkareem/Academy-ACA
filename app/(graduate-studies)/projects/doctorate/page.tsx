@@ -6,7 +6,6 @@ import Image from "next/image";
 import { useGSAP } from "@gsap/react";
 import { useRef } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { SplitText } from "gsap/SplitText";
 function doctorate() {
   const cardsContainerRef = useRef<HTMLDivElement>(null);
   const infoRef = useRef<HTMLDivElement>(null);
@@ -19,106 +18,48 @@ function doctorate() {
 
   useGSAP(
     () => {
-      gsap.registerPlugin(ScrollTrigger, SplitText);
+      gsap.registerPlugin(ScrollTrigger);
+
+      if (infoRef.current) {
+        gsap.from(infoRef.current.children, {
+          y: 14,
+          autoAlpha: 0,
+          duration: 0.5,
+          stagger: 0.1,
+          ease: "power1.out",
+        });
+      }
 
       const cards = gsap.utils.toArray<HTMLElement>(".stack-card");
-
-      cards.forEach((card, index) => {
-        const textElements = card.querySelectorAll(
-          "h2, p, li, h4, span:not(.no-split)",
-        );
-
-        const split = new SplitText(textElements, {
-          type: "lines, words",
-          linesClass: "overflow-hidden",
-        });
-
-        const tl = gsap.timeline({
+      cards.forEach((card) => {
+        gsap.from(card, {
+          y: 20,
+          autoAlpha: 0,
+          duration: 0.55,
+          ease: "power1.out",
           scrollTrigger: {
             trigger: card,
-            start: "30% 80%",
-            toggleActions: "play none restart reverse",
+            start: "top 88%",
+            once: true,
           },
         });
-
-        // 4. Animate the Card Body
-        tl.from(card, {
-          x: index % 2 === 0 ? 500 : -500,
-          opacity: 0,
-          duration: 1,
-          ease: "power2.out",
-        });
-
-        tl.from(
-          split.words,
-          {
-            x: 50,
-            y: 50,
-            opacity: 0,
-            duration: 0.5,
-            stagger: 0.01,
-            ease: "power2.inOut",
-          },
-          "<40%",
-        );
       });
-      let imgheader = document.querySelector(".imgheader");
-
-      const headertl = gsap.timeline({
-        defaults: {
-          duration: 1,
-          ease: "none",
-        },
-      });
-
-      if (!infoRef.current) return;
-
-      var infoText = SplitText.create(infoRef.current.children, {
-        type: "lines, words",
-        linesClass: "overflow-hidden",
-      });
-      headertl
-        .from(imgheader, {
-          y: 20,
-          clipPath: "inset(25% 25% 25% 25%)",
-          delay: 1,
-        })
-        .from(
-          infoRef.current?.children,
-          {
-            y: 20,
-            autoAlpha: 0,
-            stagger: 0.5,
-            ease: "elastic",
-          },
-          "<50%",
-        )
-        .from(
-          infoText.words,
-          {
-            x: 20,
-            autoAlpha: 0,
-            stagger: 0.02,
-            ease: "power2.inOut",
-          },
-          "<20%",
-        );
     },
     { scope: cardsContainerRef },
   );
 
   return (
-    <div className="mx-auto px-6 lg:px-14  " dir="rtl">
+    <div className="mx-auto px-6 lg:px-10  " dir="rtl">
       {/* هيدر البرنامج */}
-      <div className="imgheader py-2 mx-auto text-center ">
+      <div className=" py-2 mx-auto text-center ">
         <div className="relative group w-full h-[60vh] sm:h-96 lg:h-[30rem] mx-auto mb-8 rounded-3xl overflow-hidden shadow-2xl">
-          <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent z-10 transition-opacity duration-500 group-hover:opacity-70"></div>
+          <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent z-10 transition-opacity duration-500 "></div>
 
           <div
             ref={infoRef}
-            className="info absolute bottom-4 right-4 sm:bottom-6 sm:right-6 lg:bottom-8 lg:right-8 z-20 space-y-3 lg:space-y-4 w-[calc(100%-2rem)] sm:w-auto max-w-2xl transition-all duration-1000 group-hover:translate-y-3 group-hover:translate-x-3 lg:group-hover:translate-y-5 lg:group-hover:translate-x-5 text-right"
+            className="info absolute bottom-4 right-4 sm:bottom-6 sm:right-6 lg:bottom-8 lg:right-8 z-20 space-y-3 lg:space-y-4 w-[calc(100%-2rem)] sm:w-auto max-w-2xl transition-all duration-1000  text-right"
           >
-            <h3 className="text-2xl sm:text-3xl lg:text-4xl w-fit font-bold text-white bg-[#d4af37] rounded-xl px-4 py-2 lg:px-6 lg:py-3 shadow-2xl">
+            <h3 className="text-2xl sm:text-xl lg:text-2xl w-fit font-bold text-white bg-[#d4af37] rounded-xl px-4 py-2 lg:px-6 lg:py-3 shadow-2xl">
               {diploma.name}
             </h3>
             <p className="text-sm sm:text-base lg:text-lg font-medium text-stone-200 leading-relaxed bg-black/30 backdrop-blur-md p-3 lg:p-4 rounded-xl border-r-4 border-[#d4af37]">
@@ -130,7 +71,7 @@ function doctorate() {
             src={Grad}
             alt={diploma.name}
             fill
-            className="object-cover transition-transform duration-700 group-hover:scale-110"
+            className="object-cover"
             priority
           />
         </div>
@@ -143,23 +84,19 @@ function doctorate() {
         {diploma.programSections.map((section, idx) => (
           <div
             key={idx}
-            className="stack-card w-full bg-white border border-stone-100 p-8 lg:p-14 rounded-[3rem] shadow-[0_15px_50px_rgba(0,0,0,0.05)] mb-[8vh] will-change-transform transform-gpu relative overflow-hidden group"
+            className="stack-card w-full bg-white border border-stone-100 p-8 lg:p-12 rounded-[2.5rem] shadow-[0_15px_40px_rgba(0,0,0,0.06)] mb-[6vh] will-change-transform transform-gpu relative group"
             style={{ zIndex: idx }}
           >
-            <div className="absolute top-0 left-0 w-32 h-32 bg-stone-50 rounded-br-full -z-10 opacity-50 group-hover:bg-[#d4af37]/5 transition-colors duration-500"></div>
+            <div className="absolute top-10 left-10 text-stone-100 text-7xl font-black group-hover:text-[#d4af37]/10 transition-colors select-none">
+              {String(idx + 1).padStart(2, "0")}
+            </div>
 
-            <div className="flex items-center gap-6 mb-12">
-              <div className="relative">
-                <span className="flex items-center justify-center w-15 h-15 rounded-2xl bg-stone-900 text-[#d4af37] font-black text-2xl shadow-xl transform group-hover:rotate-6 transition-transform">
-                  {idx + 1}
-                </span>
-                <div className="absolute -bottom-2 -right-2 w-full h-full border-2 border-[#d4af37] rounded-2xl -z-10 group-hover:translate-x-1 group-hover:translate-y-1 transition-transform"></div>
-              </div>
+            <div className="flex items-center gap-4 mb-10 relative z-10">
+              <div className="w-2 h-10 bg-[#d4af37] rounded-full"></div>
               <div>
-                <h2 className="text-3xl lg:text-4xl font-black text-stone-800 ">
+                <h2 className="text-3xl font-bold text-stone-800 tracking-tight">
                   {section.titleAr}
                 </h2>
-                <div className="h-1.5 w-20 bg-[#d4af37] mt-2 rounded-full"></div>
               </div>
             </div>
 
@@ -172,7 +109,7 @@ function doctorate() {
               </div>
             )}
 
-            <div className="text-stone-700 text-lg leading-relaxed">
+            <div className="text-stone-700 text-lg leading-relaxed relative z-10">
               {typeof section.content === "string" && (
                 <div className="relative p-8 bg-stone-50 rounded-[2rem] border-r-8 border-stone-200">
                   <span className="absolute top-4 left-6 text-6xl text-stone-200 font-serif leading-none">

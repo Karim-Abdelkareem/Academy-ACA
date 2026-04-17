@@ -6,7 +6,6 @@ import Image from "next/image";
 import { useGSAP } from "@gsap/react";
 import { useRef } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { SplitText } from "gsap/SplitText";
 
 function DiplomaPage() {
   const cardsContainerRef = useRef<HTMLDivElement>(null);
@@ -18,106 +17,48 @@ function DiplomaPage() {
 
   useGSAP(
     () => {
-      gsap.registerPlugin(ScrollTrigger, SplitText);
+      gsap.registerPlugin(ScrollTrigger);
+
+      if (infoRef.current) {
+        gsap.from(infoRef.current.children, {
+          y: 14,
+          autoAlpha: 0,
+          duration: 0.5,
+          stagger: 0.1,
+          ease: "power1.out",
+        });
+      }
 
       const cards = gsap.utils.toArray<HTMLElement>(".stack-card");
-
-      cards.forEach((card, index) => {
-        const textElements = card.querySelectorAll(
-          "h2, p, li, h4, span:not(.no-split)",
-        );
-
-        const split = new SplitText(textElements, {
-          type: "lines, words",
-          linesClass: "overflow-hidden",
-        });
-
-        const tl = gsap.timeline({
+      cards.forEach((card) => {
+        gsap.from(card, {
+          y: 20,
+          autoAlpha: 0,
+          duration: 0.55,
+          ease: "power1.out",
           scrollTrigger: {
             trigger: card,
-            start: index === 0 ? "10% 80%" : "30% 80%",
-            toggleActions: "play none restart reverse",
+            start: "top 88%",
+            once: true,
           },
         });
-
-        // 4. Animate the Card Body
-        tl.from(card, {
-          x: index % 2 === 0 ? 500 : -500,
-          opacity: 0,
-          duration: 1,
-          ease: "power2.out",
-        });
-
-        tl.from(
-          split.words,
-          {
-            x: 50,
-            y: 50,
-            opacity: 0,
-            duration: 0.5,
-            stagger: 0.01,
-            ease: "power2.inOut",
-          },
-          "<40%",
-        );
       });
-      let imgheader = document.querySelector(".imgheader");
-
-      const headertl = gsap.timeline({
-        defaults: {
-          duration: 1,
-          ease: "none",
-        },
-      });
-
-      if (!infoRef.current) return;
-
-      var infoText = SplitText.create(infoRef.current.children, {
-        type: "lines, words",
-        linesClass: "overflow-hidden",
-      });
-      headertl
-        .from(imgheader, {
-          y: 20,
-          clipPath: "inset(25% 25% 25% 25%)",
-          delay: 1,
-        })
-        .from(
-          infoRef.current?.children,
-          {
-            y: 20,
-            autoAlpha: 0,
-            stagger: 0.5,
-            ease: "elastic",
-          },
-          "<50%",
-        )
-        .from(
-          infoText.words,
-          {
-            x: 20,
-            autoAlpha: 0,
-            stagger: 0.02,
-            ease: "power2.inOut",
-          },
-          "<20%",
-        );
     },
     { scope: cardsContainerRef },
   );
 
   return (
-    <div className="mx-auto px-6 lg:px-14  " dir="rtl">
+    <div className="mx-auto px-6 lg:px-10  " dir="rtl">
       {/* هيدر البرنامج */}
-      <div className="imgheader py-2 mx-auto text-center ">
+      <div className=" py-2 mx-auto text-center ">
         <div className="relative group w-full h-[60vh] sm:h-96 lg:h-[30rem] mx-auto mb-8 rounded-3xl overflow-hidden shadow-2xl">
-          <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent z-10 transition-opacity duration-500 group-hover:opacity-70"></div>
+          <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent z-10 transition-opacity duration-500 "></div>
 
           <div
             ref={infoRef}
-            className="info absolute bottom-4 right-4 sm:bottom-6 sm:right-6 lg:bottom-8 lg:right-8 z-20 space-y-3 lg:space-y-4 w-[calc(100%-2rem)] sm:w-auto max-w-2xl transition-all duration-1000 group-hover:translate-y-3 group-hover:translate-x-3 lg:group-hover:translate-y-5 lg:group-hover:translate-x-5 text-right"
+            className="info absolute bottom-4 right-4 sm:bottom-6 sm:right-6 lg:bottom-8 lg:right-8 z-20 space-y-3 lg:space-y-4 w-[calc(100%-2rem)] sm:w-auto max-w-2xl transition-all duration-1000   text-right"
           >
-            <h3 className="text-2xl sm:text-3xl lg:text-4xl w-fit font-bold text-white bg-[#d4af37] rounded-xl px-4 py-2 lg:px-6 lg:py-3 shadow-2xl">
+            <h3 className="text-2xl sm:text-xl lg:text-2xl w-fit font-bold text-white bg-[#d4af37] rounded-xl px-4 py-2 lg:px-6 lg:py-3 shadow-2xl">
               {diploma.name}
             </h3>
             <p className="text-sm sm:text-base lg:text-lg font-medium text-stone-200 leading-relaxed bg-black/30 backdrop-blur-md p-3 lg:p-4 rounded-xl border-r-4 border-[#d4af37]">
@@ -129,7 +70,7 @@ function DiplomaPage() {
             src={Grad}
             alt={diploma.name}
             fill
-            className=" object-cover transition-transform duration-700 group-hover:scale-110"
+            className=" object-cover "
             priority
           />
         </div>
@@ -138,20 +79,22 @@ function DiplomaPage() {
       {/* قائمة الكروت المتراكمة */}
       <div
         ref={cardsContainerRef}
-        className="flex flex-col items-center overflow-hidden p-5  mx-auto"
+        className="flex flex-col items-center  overflow-hidden p-5  mx-auto"
       >
         {diploma.programSections.map((section, idx) => (
           <div
             key={idx}
-            className="stack-card w-full bg-white border border-stone-100 p-8 lg:p-12 rounded-[2.5rem] shadow-[0_20px_20px_rgba(0,0,0,0.1)] mb-[5vh] will-change-transform"
+            className="stack-card w-full bg-white border border-stone-100 p-8 lg:p-12 rounded-[2.5rem] shadow-[0_15px_40px_rgba(0,0,0,0.06)] mb-[6vh] will-change-transform transform-gpu relative group"
             style={{ zIndex: idx }}
           >
+            <div className="absolute top-10 left-10 text-stone-100 text-7xl font-black group-hover:text-[#d4af37]/10 transition-colors select-none">
+              {String(idx + 1).padStart(2, "0")}
+            </div>
+
             {/* عنوان القسم */}
-            <div className="flex items-center gap-4 mb-8">
-              <span className="flex items-center justify-center w-12 h-12 rounded-full bg-[#d4af37] text-white font-bold text-xl shadow-lg">
-                {idx + 1}
-              </span>
-              <h2 className="text-3xl font-bold text-stone-900 border-r-4 border-[#d4af37] pr-4">
+            <div className="flex items-center gap-4 mb-10 relative z-10">
+              <div className="w-2 h-10 bg-[#d4af37] rounded-full"></div>
+              <h2 className="text-3xl font-bold text-stone-800 tracking-tight">
                 {section.titleAr}
               </h2>
             </div>
@@ -165,7 +108,7 @@ function DiplomaPage() {
               </div>
             )}
 
-            <div className="text-stone-700 text-lg leading-relaxed">
+            <div className="text-stone-700 text-lg leading-relaxed relative z-10">
               {/* عرض النصوص */}
               {typeof section.content === "string" && (
                 <p className="text-xl">{section.content}</p>
@@ -173,14 +116,18 @@ function DiplomaPage() {
 
               {/* عرض المصفوفات (أهداف/شروط) */}
               {Array.isArray(section.content) && (
-                <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <ul className="grid grid-cols-1 gap-4">
                   {section.content.map((item, i) => (
                     <li
                       key={i}
-                      className="flex items-center gap-3 bg-stone-50 p-4 rounded-2xl border border-stone-100 transition-all hover:shadow-md hover:bg-white"
+                      className="gap-3 bg-stone-50 p-4 rounded-2xl border border-stone-100 transition-all hover:shadow-md hover:bg-white"
                     >
-                      <span className="text-[#d4af37] text-2xl">✦</span>
-                      <span className="font-medium text-stone-800">{item}</span>
+                      <div className="flex items-baseline align-middles">
+                        <span className="text-[#d4af37] inline-block ml-2 w-2 h-2 bg-[#d4af37] p-1"></span>
+                        <span className="font-medium text-stone-800">
+                          {item}
+                        </span>
+                      </div>
                     </li>
                   ))}
                 </ul>
@@ -192,13 +139,13 @@ function DiplomaPage() {
                 section.content !== null && (
                   <div className="space-y-8">
                     {section.content.courses?.coreCourses && (
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                      <div className="grid grid-cols-1  gap-8">
                         {Object.entries(
                           section.content.courses.coreCourses,
                         ).map(([semester, courses]: [string, any]) => (
                           <div
                             key={semester}
-                            className="bg-stone-50/50 p-6 rounded-3xl border border-stone-200"
+                            className="bg-stone-50/50 p-6 rounded-3xl border relative  border-stone-200"
                           >
                             <h4 className="font-bold text-[#d4af37] mb-6 text-2xl flex items-center gap-2">
                               <span className="w-8 h-1 bg-[#d4af37] rounded-full"></span>

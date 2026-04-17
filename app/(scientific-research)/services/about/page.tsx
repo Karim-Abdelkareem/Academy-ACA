@@ -5,7 +5,6 @@ import Logo from "@/public/logo.png";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { SplitText } from "gsap/SplitText";
 import { BadgeInfo, ChevronDown } from "lucide-react";
 
 const goals = [
@@ -28,72 +27,35 @@ function servicesAbout() {
 
   useGSAP(
     () => {
-      gsap.registerPlugin(ScrollTrigger, SplitText);
+      gsap.registerPlugin(ScrollTrigger);
       const about = document.querySelector(".aboutCard");
       const aboutImg = document.querySelector(".aboutImg");
       const aboutInfo = document.querySelector(".aboutInfo");
-      const aboutTitle = document.querySelector(".aboutTitle");
-      const aboutDesc = document.querySelector(".aboutDesc");
       const aboutNumbers = document.querySelector(".aboutNumbers");
       const aboutDropdown = document.querySelector(".aboutDropdown");
-
-      const aboutchars = SplitText.create([aboutTitle, aboutDesc], {
-        type: "lines,words",
-        mask: "words",
-      });
-
-      gsap
-        .timeline({
-          scrollTrigger: {
-            trigger: about,
-            start: "top 85%",
-            end: "top 15%",
-            scrub: 1,
-          },
-        })
-        .from(
-          aboutImg,
-          {
-            clipPath: "inset(0 100% 0 0)",
-          },
-          0,
-        )
-        .from(
-          aboutInfo,
-          {
-            clipPath: "inset(0 0 0 100%)",
-            x: 40,
-          },
-          0,
-        );
-
-      gsap.from(aboutchars.words, {
-        autoAlpha: 0.2,
-        stagger: {
-          amount: 1,
-          from: "random",
-        },
-        xPercent: 100,
+      gsap.from([aboutImg, aboutInfo], {
+        autoAlpha: 0,
+        y: 24,
+        duration: 0.7,
+        stagger: 0.12,
         ease: "power2.out",
         scrollTrigger: {
           trigger: about,
-          start: "center 90%",
-          end: "+=300px",
-
-          scrub: 1,
+          start: "top 85%",
+          toggleActions: "play none none reverse",
         },
       });
+
       gsap.from([aboutDropdown, aboutNumbers], {
         autoAlpha: 0,
-        y: 50,
+        y: 18,
+        duration: 0.55,
         stagger: 0.1,
         ease: "power2.out",
         scrollTrigger: {
           trigger: about,
-          start: "center 70%",
-          end: "+=300px",
-
-          scrub: 1,
+          start: "top 72%",
+          toggleActions: "play none none reverse",
         },
       });
     },
@@ -103,12 +65,6 @@ function servicesAbout() {
   useGSAP(
     () => {
       const items = document.querySelectorAll(".dropdown-item");
-      const dropParagraph = document.querySelectorAll(".dropParagraph");
-
-      const dropParagraphChars = SplitText.create(dropParagraph, {
-        type: "lines,words",
-        mask: "words",
-      });
       if (isDropdownOpen) {
         const tl = gsap.timeline();
         tl.to(dropdownRef.current, {
@@ -124,17 +80,6 @@ function servicesAbout() {
               opacity: 1,
               stagger: 0.05,
               duration: 0.4,
-              ease: "power2.out",
-            },
-            "-=0.2",
-          )
-          .from(
-            dropParagraphChars.words,
-            {
-              xPercent: 100,
-              opacity: 0,
-              stagger: 0.02,
-              duration: 0.5,
               ease: "power2.out",
             },
             "-=0.2",
@@ -173,14 +118,14 @@ function servicesAbout() {
             className="aboutInfo order-2 md:order-1 space-y-6 col-span-2 lg:col-span-2"
             dir="rtl"
           >
-            <div className="text-sm font-semibold tracking-[0.28em] text-red-700 uppercase">
+            {/* <div className="text-sm font-semibold tracking-[0.28em] text-red-700 uppercase">
               About the Center
               <div className="mt-5 flex items-center gap-3">
                 <div className="w-14 h-0.5 bg-red-700 rounded-full" />
                 <div className="w-1.5 h-1.5 rotate-45 bg-red-700" />
                 <div className="w-6 h-px bg-red-200" />
               </div>
-            </div>
+            </div> */}
             <h2 className="aboutTitle ap-display text-4xl lg:text-5xl font-bold text-stone-900 leading-tight">
               مركز الدراسات والبحوث
             </h2>
@@ -220,7 +165,7 @@ function servicesAbout() {
                       <span className="text-red-700 text-xl  transition-transform group-hover:-translate-x-1 group-hover:scale-150">
                         <BadgeInfo />
                       </span>
-                      <p className="dropParagraph text-base font-medium leading-relaxed">
+                      <p className="text-base font-medium leading-relaxed">
                         {goal}
                       </p>
                     </li>

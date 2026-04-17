@@ -1,7 +1,5 @@
-import React from "react";
+import { redirect } from "next/navigation";
 
-function page() {
-  return <div></div>;
+export default function ProjectsPage() {
+  redirect("/projects/diploma");
 }
-
-export default page;
