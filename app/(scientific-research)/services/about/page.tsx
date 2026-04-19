@@ -126,7 +126,10 @@ function servicesAbout() {
                 <div className="w-6 h-px bg-red-200" />
               </div>
             </div> */}
-            <h2 className="aboutTitle ap-display text-4xl lg:text-5xl font-bold text-stone-900 leading-tight">
+            <h2
+              id="international-partnerships"
+              className="aboutTitle ap-display text-4xl lg:text-5xl font-bold text-stone-900 leading-tight"
+            >
               مركز الدراسات والبحوث
             </h2>
             <p className="aboutDesc text-stone-600 text-lg leading-relaxed">
@@ -139,7 +142,7 @@ function servicesAbout() {
               وتتمثل أهداف المركز فيما يلي:
             </p>
 
-            <div className="aboutDropdown w-full relative z-10">
+            <div id="agreements" className="aboutDropdown w-full relative z-10">
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 className="flex items-center justify-between w-full px-5 py-4 bg-white border border-stone-200 rounded-xl hover:bg-stone-50 transition-all duration-300 shadow-sm hover:shadow-md"

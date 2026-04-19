@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import logo from "@/public/logo.png";
 import gsap from "gsap";
@@ -70,7 +71,7 @@ const NAV_ITEMS = [
           links: [
             {
               label: "نشأة الأكاديمية",
-              href: "/about/origin",
+              href: "/about-academy?itemId=10259#foundation",
               icon: (
                 <Landmark
                   className={menuIconClass}
@@ -81,7 +82,7 @@ const NAV_ITEMS = [
             },
             {
               label: "الرؤية والرسالة",
-              href: "/about/vision",
+              href: "/about-academy?itemId=10260#foundation",
               icon: (
                 <Telescope
                   className={menuIconClass}
@@ -92,7 +93,7 @@ const NAV_ITEMS = [
             },
             {
               label: "الهيكل التنظيمي",
-              href: "/about/structure",
+              href: "/about-academy?itemId=10338#administrativeStructure",
               icon: (
                 <FolderTree
                   className={menuIconClass}
@@ -108,14 +109,14 @@ const NAV_ITEMS = [
           links: [
             {
               label: "كلمة الرئيس",
-              href: "/about/speech",
+              href: "/about-academy?itemId=10295#administrativeStructure",
               icon: (
                 <Mic className={menuIconClass} strokeWidth={2} aria-hidden />
               ),
             },
             {
               label: "مجلس الإدارة",
-              href: "/about/board",
+              href: "/about-academy?itemId=10294#administrativeStructure",
               icon: (
                 <Users className={menuIconClass} strokeWidth={2} aria-hidden />
               ),
@@ -165,7 +166,7 @@ const NAV_ITEMS = [
                 },
                 {
                   label: "الماجستير",
-                  href: "/projects/master",
+                  href: "/projects/masters",
                   icon: (
                     <GraduationCap
                       className={menuIconClass}
@@ -186,36 +187,6 @@ const NAV_ITEMS = [
                   ),
                 },
               ],
-            },
-          ],
-        },
-        {
-          heading: "التدريب",
-          links: [
-            {
-              label: "البرامج التدريبية",
-              href: "/studies/training",
-              icon: (
-                <ClipboardList
-                  className={menuIconClass}
-                  strokeWidth={2}
-                  aria-hidden
-                />
-              ),
-            },
-            {
-              label: "التدريب الإلكتروني",
-              href: "/studies/elearning",
-              icon: (
-                <Laptop className={menuIconClass} strokeWidth={2} aria-hidden />
-              ),
-            },
-            {
-              label: "الشهادات المهنية",
-              href: "/studies/certs",
-              icon: (
-                <Award className={menuIconClass} strokeWidth={2} aria-hidden />
-              ),
             },
           ],
         },
@@ -240,7 +211,7 @@ const NAV_ITEMS = [
             // { label: "الاستشارات", href: "/services/about", icon: <Lightbulb className={menuIconClass} strokeWidth={2} aria-hidden /> },
             {
               label: "البحث العلمي",
-              href: "/services/about",
+              href: "/services/studies",
               icon: (
                 <FlaskConical
                   className={menuIconClass}
@@ -251,32 +222,9 @@ const NAV_ITEMS = [
             },
             {
               label: "النشر والإصدارات",
-              href: "/services/publishing",
+              href: "/services/bookstore",
               icon: (
                 <Newspaper
-                  className={menuIconClass}
-                  strokeWidth={2}
-                  aria-hidden
-                />
-              ),
-            },
-          ],
-        },
-        {
-          heading: "الشراكات",
-          links: [
-            {
-              label: "الشراكات الدولية",
-              href: "/services/international",
-              icon: (
-                <Globe className={menuIconClass} strokeWidth={2} aria-hidden />
-              ),
-            },
-            {
-              label: "الاتفاقيات",
-              href: "/services/agreements",
-              icon: (
-                <Handshake
                   className={menuIconClass}
                   strokeWidth={2}
                   aria-hidden
@@ -310,22 +258,22 @@ const NAV_ITEMS = [
           heading: "وسائل التواصل",
           links: [
             {
-              label: "البريد الإلكتروني",
-              href: "/contact/email",
+              label: "البريد الإلكتروني: info@academy.aca.gov.eg",
+              href: "mailto:info@academy.aca.gov.eg",
               icon: (
                 <Mail className={menuIconClass} strokeWidth={2} aria-hidden />
               ),
             },
             {
-              label: "الهاتف",
-              href: "/contact/phone",
+              label: "الهاتف: +20 2 0000 0000",
+              href: "tel:+202000000000",
               icon: (
                 <Phone className={menuIconClass} strokeWidth={2} aria-hidden />
               ),
             },
             {
-              label: "العنوان",
-              href: "/contact/address",
+              label: "العنوان: الأكاديمية الوطنية لمكافحة الفساد",
+              href: "/contact-us?item=address#address",
               icon: (
                 <MapPin className={menuIconClass} strokeWidth={2} aria-hidden />
               ),
@@ -342,6 +290,7 @@ type Language = "ar" | "en" | "fr";
 
 // ─── Component ─────────────────────────────────────────────────────────────────
 export default function MegaMenu() {
+  const router = useRouter();
   const wrapperRef = useRef<HTMLDivElement>(null);
   const navRef = useRef<HTMLElement>(null);
   const [activeId, setActiveId] = useState<string | null>(null);
@@ -446,6 +395,10 @@ export default function MegaMenu() {
                     {item.mega ? (
                       <button
                         onMouseEnter={() => handleMouseEnter(item.id)}
+                        onClick={() => {
+                          setActiveId(null);
+                          router.push(item.href);
+                        }}
                         className={`group flex items-center gap-1 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 cursor-pointer
                           ${
                             activeId === item.id
@@ -530,9 +483,9 @@ export default function MegaMenu() {
                         </span>
                       </button>
                     </DialogTrigger>
-                    <DialogContent>
+                    <DialogContent id="language-switcher-dialog" aria-labelledby="language-switcher-title">
                       <DialogHeader>
-                        <DialogTitle>اختر اللغة</DialogTitle>
+                        <DialogTitle id="language-switcher-title">اختر اللغة</DialogTitle>
                       </DialogHeader>
                       <div className="grid gap-2 py-2">
                         {(
@@ -592,13 +545,13 @@ export default function MegaMenu() {
                   aria-label={mobileOpen ? "إغلاق القائمة" : "فتح القائمة"}
                 >
                   <span
-                    className={`block w-5 h-[2px] rounded-full transition-all duration-300 ${scrolled ? "bg-neutral-800" : "bg-white"} ${mobileOpen ? "translate-y-[7px] rotate-45" : ""}`}
+                    className={`block w-5 h-[2px] rounded-full transition-all duration-300 bg-black ${mobileOpen ? "translate-y-[7px] rotate-45" : ""}`}
                   />
                   <span
-                    className={`block w-5 h-[2px] rounded-full transition-all duration-300 ${scrolled ? "bg-neutral-800" : "bg-white"} ${mobileOpen ? "opacity-0" : ""}`}
+                    className={`block w-5 h-[2px] rounded-full transition-all duration-300 bg-black ${mobileOpen ? "opacity-0" : ""}`}
                   />
                   <span
-                    className={`block w-5 h-[2px] rounded-full transition-all duration-300 ${scrolled ? "bg-neutral-800" : "bg-white"} ${mobileOpen ? "-translate-y-[7px] -rotate-45" : ""}`}
+                    className={`block w-5 h-[2px] rounded-full transition-all duration-300 bg-black ${mobileOpen ? "-translate-y-[7px] -rotate-45" : ""}`}
                   />
                 </button>
               </div>
@@ -623,7 +576,11 @@ export default function MegaMenu() {
                 onMouseLeave={handleMouseLeave}
                 dir="rtl"
               >
-                <div className="grid grid-cols-12 gap-0 min-h-[220px]">
+                <div
+                  className={`grid grid-cols-12 gap-0 ${
+                    activeId === "contact" ? "min-h-[145px]" : "min-h-[220px]"
+                  }`}
+                >
                   {/* Featured card */}
                   <div
                     className={`col-span-4 p-8 bg-gradient-to-br ${activeMega.featured.color} flex flex-col justify-end gap-3 border-l border-neutral-100`}
@@ -648,32 +605,63 @@ export default function MegaMenu() {
                   </div>
 
                   {/* Link groups */}
-                  <div className="col-span-8 p-8 grid grid-cols-2 gap-8">
+                  <div
+                    className={`col-span-8 grid ${
+                      activeId === "contact" ? "p-4 gap-3" : "p-8 gap-8"
+                    } ${
+                      activeMega.groups.length === 1 ? "grid-cols-1" : "grid-cols-2"
+                    }`}
+                  >
                     {activeMega.groups.map((group) => (
                       <div key={group.heading}>
-                        <p className="text-[10px] font-mono tracking-[0.25em] uppercase text-neutral-400 mb-4">
+                        <p
+                          className={`font-mono tracking-[0.2em] uppercase text-neutral-500 ${
+                            activeId === "contact" ? "mb-2" : "mb-4"
+                          } ${activeId === "contact" ? "text-xs" : "text-[10px]"}`}
+                        >
                           {group.heading}
                         </p>
-                        <ul className="space-y-1">
+                        <ul className={activeId === "contact" ? "space-y-2" : "space-y-1"}>
                           {group.links.map((link) => (
-                            <li key={link.href}>
-                              <Link
-                                href={link.href}
-                                onClick={() => setActiveId(null)}
-                                className="group flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-neutral-50 transition-colors"
-                              >
-                                <span className="w-8 h-8 rounded-lg bg-neutral-100  group-hover:bg-white group-hover:shadow-sm flex items-center  justify-center text-sm transition-all duration-200 shrink-0">
-                                  {link.icon}
-                                </span>
-                                <span className="text-sm text-neutral-700 group-hover:text-neutral-900 font-medium transition-colors">
-                                  {link.label}
-                                </span>
-                                <GoArrowUpRight className="w-3.5 h-3.5 text-neutral-300 group-hover:text-[#d4af37] mr-auto transition-colors opacity-0 group-hover:opacity-100" />
-                              </Link>
-                              {"nested" in link && link.nested && (
+                            <li key={`${group.heading}-${link.href}-${link.label}`}>
+                              {activeId === "contact" ? (
+                                <div className="group flex items-center gap-3 rounded-xl border border-stone-200 bg-gradient-to-l from-white to-stone-50/60 px-3 py-2.5 shadow-sm transition-all duration-200 hover:border-red-200 hover:shadow-md">
+                                  <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-red-50 text-red-700">
+                                    {link.icon as React.ReactNode}
+                                  </span>
+                                  <div className="min-w-0 flex-1 flex items-center gap-2">
+                                    <p className="font-bold text-stone-900 text-base shrink-0">
+                                      {link.label.split(":")[0]}
+                                    </p>
+                                    <p className="text-red-700 text-base leading-relaxed break-words">
+                                      {link.label.split(":").slice(1).join(":").trim()}
+                                    </p>
+                                  </div>
+                                </div>
+                              ) : (
+                                <Link
+                                  href={link.href}
+                                  onClick={() => setActiveId(null)}
+                                  className="group flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-neutral-50 transition-colors"
+                                >
+                                  <span className="w-8 h-8 rounded-lg bg-neutral-100  group-hover:bg-white group-hover:shadow-sm flex items-center  justify-center text-sm transition-all duration-200 shrink-0">
+                                    {link.icon as React.ReactNode}
+                                  </span>
+                                  <span className="text-sm text-neutral-700 group-hover:text-neutral-900 font-medium transition-colors">
+                                    {link.label}
+                                  </span>
+                                  <GoArrowUpRight className="w-3.5 h-3.5 text-neutral-300 group-hover:text-[#d4af37] mr-auto transition-colors opacity-0 group-hover:opacity-100" />
+                                </Link>
+                              )}
+                              {"nested" in link && Array.isArray(link.nested) && (
                                 <ul className="space-y-1">
-                                  {link.nested.map((nestedLink) => (
-                                    <li key={nestedLink.href}>
+                                  {link.nested.map(
+                                    (nestedLink: {
+                                      href: string;
+                                      label: string;
+                                      icon: React.ReactNode;
+                                    }) => (
+                                    <li key={`${nestedLink.href}-${nestedLink.label}`}>
                                       <Link
                                         href={nestedLink.href}
                                         onClick={() => setActiveId(null)}
@@ -688,7 +676,8 @@ export default function MegaMenu() {
                                         <GoArrowUpRight className="w-3.5 h-3.5 text-neutral-300 group-hover:text-[#d4af37] mr-auto transition-colors opacity-0 group-hover:opacity-100" />
                                       </Link>
                                     </li>
-                                  ))}
+                                    ),
+                                  )}
                                 </ul>
                               )}
                             </li>
@@ -737,24 +726,6 @@ export default function MegaMenu() {
                   height={70}
                   className="h-10 w-auto object-contain p-1"
                 />
-                <button
-                  onClick={() => setMobileOpen(false)}
-                  className="w-9 h-9 rounded-xl hover:bg-neutral-100 flex items-center justify-center transition-colors cursor-pointer"
-                >
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
               </div>
 
               {/* Nav links */}
@@ -775,7 +746,7 @@ export default function MegaMenu() {
                         {item.mega.groups.flatMap((g) =>
                           g.links.map((lnk) => (
                             <Link
-                              key={lnk.href}
+                              key={`${g.heading}-${lnk.href}-${lnk.label}`}
                               href={lnk.href}
                               onClick={() => setMobileOpen(false)}
                               className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm text-neutral-500 hover:text-neutral-800 hover:bg-neutral-50 transition-colors"
