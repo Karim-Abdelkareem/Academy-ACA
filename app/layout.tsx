@@ -4,6 +4,7 @@ import { Cairo, Geist_Mono, Noto_Sans, Noto_Sans_Arabic } from "next/font/google
 import HydrationSafeMegaMenu from "@/components/HydrationSafeMegaMenu";
 import Footer from "@/components/Footer";
 import ScrollToTop from "@/components/ScrollToTop";
+import ElevenLabsConvai from "@/components/ElevenLabsConvai";
 
 /** Headings (h1–h6) — applied in globals.css */
 const cairo = Cairo({
@@ -46,6 +47,7 @@ export default function RootLayout({
         {children}
         <Footer />
         <ScrollToTop />
+        <ElevenLabsConvai />
       </body>
     </html>
   );
