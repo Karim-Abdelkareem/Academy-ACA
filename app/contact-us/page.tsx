@@ -1,6 +1,12 @@
+ "use client";
+
 import { Mail, MapPin, Phone } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 
 export default function ContactUsPage() {
+  const searchParams = useSearchParams();
+  const selectedItem = searchParams.get("item");
+
   return (
     <main className="bg-stone-50 py-14 lg:py-20" dir="rtl">
       <div className="max-w-screen-xl mx-auto px-6 lg:px-14">
@@ -16,7 +22,14 @@ export default function ContactUsPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <section className="lg:col-span-1 space-y-4">
-            <div className="flex gap-4 rounded-2xl border border-stone-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md">
+            <div
+              id="address"
+              className={`flex gap-4 rounded-2xl border bg-white p-5 shadow-sm transition-shadow hover:shadow-md ${
+                selectedItem === "address"
+                  ? "border-red-300 ring-2 ring-red-100"
+                  : "border-stone-200"
+              }`}
+            >
               <MapPin
                 className="size-6 shrink-0 text-black"
                 strokeWidth={2}
@@ -30,7 +43,14 @@ export default function ContactUsPage() {
               </div>
             </div>
 
-            <div className="flex gap-4 rounded-2xl border border-stone-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md">
+            <div
+              id="email"
+              className={`flex gap-4 rounded-2xl border bg-white p-5 shadow-sm transition-shadow hover:shadow-md ${
+                selectedItem === "email"
+                  ? "border-red-300 ring-2 ring-red-100"
+                  : "border-stone-200"
+              }`}
+            >
               <Mail
                 className="size-6 shrink-0 text-black"
                 strokeWidth={2}
@@ -49,7 +69,14 @@ export default function ContactUsPage() {
               </div>
             </div>
 
-            <div className="flex gap-4 rounded-2xl border border-stone-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md">
+            <div
+              id="phone"
+              className={`flex gap-4 rounded-2xl border bg-white p-5 shadow-sm transition-shadow hover:shadow-md ${
+                selectedItem === "phone"
+                  ? "border-red-300 ring-2 ring-red-100"
+                  : "border-stone-200"
+              }`}
+            >
               <Phone
                 className="size-6 shrink-0 text-black"
                 strokeWidth={2}

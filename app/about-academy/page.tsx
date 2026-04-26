@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { usePathname, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import menuJson from "@/data/menu.json";
 
@@ -66,11 +67,65 @@ function getAboutSections(data: MenuData) {
 }
 
 export default function AboutAcademyPage() {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const searchParamsString = searchParams.toString();
   const data = menuJson.data as unknown as MenuData;
   const sections = useMemo(() => getAboutSections(data), [data]);
   const [activeTab, setActiveTab] = useState(sections[0]?.key ?? "foundation");
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
-  console.log("Loaded menu data:", { sections, activeTab, selectedItemId });
+  const [hashVersion, setHashVersion] = useState(0);
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      setHashVersion((v) => v + 1);
+    };
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
+
+  useEffect(() => {
+    const syncViewFromUrl = () => {
+      const hash = window.location.hash.replace("#", "");
+      const params = new URLSearchParams(searchParamsString);
+      const itemIdQuery = Number(params.get("itemId"));
+      const itemQuery = params.get("item")?.trim();
+
+      const matchedSection = hash
+        ? sections.find((section) => section.key === hash)
+        : undefined;
+      const targetSection = matchedSection ?? sections[0];
+      if (!targetSection) return;
+
+      setActiveTab(targetSection.key);
+
+      if (!itemQuery) {
+        if (Number.isFinite(itemIdQuery) && itemIdQuery > 0) {
+          const matchedById = targetSection.items.find(
+            (item) => item.id === itemIdQuery,
+          );
+          setSelectedItemId(matchedById?.id ?? null);
+          return;
+        }
+        setSelectedItemId(null);
+        return;
+      }
+
+      const normalizedQuery = itemQuery.toLowerCase();
+      const matchedItem = targetSection.items.find((item) => {
+        const itemName = item.name.toLowerCase();
+        return (
+          itemName === normalizedQuery ||
+          itemName.includes(normalizedQuery) ||
+          normalizedQuery.includes(itemName)
+        );
+      });
+
+      setSelectedItemId(matchedItem?.id ?? null);
+    };
+
+    syncViewFromUrl();
+  }, [sections, pathname, searchParamsString, hashVersion]);
 
   const currentSection = sections.find((s) => s.key === activeTab);
   const currentItems = currentSection?.items ?? [];
@@ -240,6 +295,8 @@ export default function AboutAcademyPage() {
                   onClick={() => {
                     setActiveTab(key);
                     setSelectedItemId(null);
+                    window.history.replaceState(null, "", `#${key}`);
+                    setHashVersion((v) => v + 1);
                   }}
                   className={`relative px-5 lg:px-7 py-4 text-sm font-medium whitespace-nowrap transition-colors duration-200
                     ${activeTab === key ? "text-stone-900" : "text-stone-400 hover:text-stone-600"}`}
